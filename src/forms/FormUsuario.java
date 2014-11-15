@@ -195,7 +195,7 @@ public class FormUsuario extends javax.swing.JFrame {
 
     private void btnPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisaActionPerformed
         // TODO add your handling code here:
-        int idusuario = Integer.parseInt(txtPesquisa.getText());
+        int idusuario = Integer.parseInt(txtIdmesa.getText());
         Mesa u = this.usuarioDAO.getUsuarioById(idusuario);
         
         if(u.getNome() != null){
