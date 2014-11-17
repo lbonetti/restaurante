@@ -77,7 +77,7 @@ public class MesaDAO extends GenericDAO {
             mesa.setStatus(rs.getString("status"));
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Usuario nao encontrado");
+            
         }
         return mesa;
     }

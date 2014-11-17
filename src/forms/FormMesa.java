@@ -43,7 +43,7 @@ public class FormMesa extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtDescricao = new javax.swing.JTextField();
         btnSalvar = new javax.swing.JButton();
-        btnEditar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de mesas");
@@ -71,11 +71,11 @@ public class FormMesa extends javax.swing.JFrame {
             }
         });
 
-        btnEditar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnEditar.setText("Editar");
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
@@ -97,16 +97,17 @@ public class FormMesa extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtIdmesa, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtDescricao)
                                 .addGap(6, 6, 6))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(45, 45, 45))
@@ -128,9 +129,9 @@ public class FormMesa extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
-                    .addComponent(btnEditar))
+                    .addComponent(btnCancelar))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
@@ -141,47 +142,46 @@ public class FormMesa extends javax.swing.JFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
         Mesa u = new Mesa();
-        u.setIdusuario(Integer.parseInt(txtIdusuario.getText()));
-        u.setNome(txtNome.getText());
+        u.setIdmesa(Integer.parseInt(txtIdmesa.getText()));
+        u.setDescricao(txtDescricao.getText());
 
-        if(this.usuarioDAO.inserir(u) == true){
+        if(this.mesaDAO.inserir(u) == true){
             JOptionPane.showMessageDialog(null, "Usuario adicionado");
-            txtIdusuario.setText("");
-            txtNome.setText("");
+            txtIdmesa.setText("");
+            txtDescricao.setText("");
         }
         else{
             JOptionPane.showMessageDialog(null, "Erro ao adicionar");
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
-        Mesa u = new Mesa();
-        u.setIdusuario(Integer.parseInt(txtIdusuario.getText()));
-        u.setNome(txtNome.getText());
-
-        if(this.usuarioDAO.editar(u) == true){
-            JOptionPane.showMessageDialog(null, "Usuario editado");
-            txtIdusuario.setText("");
-            txtNome.setText("");
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Erro ao editar");
-        }
-    }//GEN-LAST:event_btnEditarActionPerformed
-
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:
         int idmesa = Integer.parseInt(txtIdmesa.getText());
         Mesa m = this.mesaDAO.getMesaById(idmesa);
         
-        if(m.getIdmesa() != null){
-            txtIdusuario.setText(String.valueOf(u.getIdusuario()));
-            txtNome.setText(u.getNome());}
+        if(m.getIdmesa() != 0){
+            txtDescricao.setText(m.getDescricao());}
         else{
-            JOptionPane.showInputDialog(null, "Mesa não encontrada! Deseja inserir uma nova mesa?");
+            JOptionPane.showConfirmDialog(null, "Mesa não encontrada! Deseja inserir uma nova mesa?");
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        Mesa u = new Mesa();
+        u.setIdmesa(Integer.parseInt(txtIdmesa.getText()));
+        u.setDescricao(txtDescricao.getText());
+
+        if(this.mesaDAO.editar(u) == true){
+            JOptionPane.showMessageDialog(null, "Usuario editado");
+            txtIdmesa.setText("");
+            txtDescricao.setText("");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Erro ao editar");
+        }
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,7 +219,7 @@ public class FormMesa extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel jLabel1;
