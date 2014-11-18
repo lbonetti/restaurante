@@ -21,12 +21,10 @@ public class MesaDAO extends GenericDAO {
     }
     
     public boolean inserir(Mesa mesa){
-        String sql = "INSERT INTO mesa(idmesa, descricao, status) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO mesa(idmesa, status) VALUES (?, 'l')";
         try{
             this.prepareStmte(sql);
             this.stmte.setInt(1, mesa.getIdmesa());
-            this.stmte.setString(2, mesa.getDescricao());
-            this.stmte.setString(3, mesa.getStatus());
             this.stmte.execute();
             return true;
         }

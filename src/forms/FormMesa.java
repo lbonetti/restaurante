@@ -24,6 +24,7 @@ public class FormMesa extends javax.swing.JFrame {
     public FormMesa() {
         initComponents();
         this.mesaDAO = new MesaDAO();
+        botoesInicial();
     }
 
     /**
@@ -118,10 +119,11 @@ public class FormMesa extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtIdmesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(txtIdmesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -139,48 +141,74 @@ public class FormMesa extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void botoesInicial(){
+        txtDescricao.setEnabled(false);
+        btnSalvar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        txtIdmesa.setEnabled(true);
+        txtIdmesa.requestFocus();
+        btnPesquisar.setEnabled(true);
+    }
+    
+    private void botoesEditar(){
+        //btnPesquisar.setEnabled(false);
+        btnSalvar.setEnabled(true);
+        btnCancelar.setEnabled(true);
+        txtDescricao.setEnabled(true);
+        txtDescricao.requestFocus();
+        txtIdmesa.setEnabled(false);
+    }
+    
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
-        Mesa u = new Mesa();
-        u.setIdmesa(Integer.parseInt(txtIdmesa.getText()));
-        u.setDescricao(txtDescricao.getText());
+        Mesa m = new Mesa();
+        
+        m.setDescricao(txtDescricao.getText());
 
-        if(this.mesaDAO.inserir(u) == true){
-            JOptionPane.showMessageDialog(null, "Usuario adicionado");
+        if(this.mesaDAO.inserir(m) == true){
+            JOptionPane.showMessageDialog(null, "Mesa cadastrada com sucesso!");
             txtIdmesa.setText("");
             txtDescricao.setText("");
+            botoesInicial();
         }
         else{
-            JOptionPane.showMessageDialog(null, "Erro ao adicionar");
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar mesa.");
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:
-        int idmesa = Integer.parseInt(txtIdmesa.getText());
-        Mesa m = this.mesaDAO.getMesaById(idmesa);
-        
-        if(m.getIdmesa() != 0){
-            txtDescricao.setText(m.getDescricao());}
-        else{
-            JOptionPane.showConfirmDialog(null, "Mesa não encontrada! Deseja inserir uma nova mesa?");
+        try{
+            int idmesa = Integer.parseInt(txtIdmesa.getText());          
+            Mesa m = this.mesaDAO.getMesaById(idmesa);
+            
+            if(m.getIdmesa() != 0){
+                txtDescricao.setText(m.getDescricao());
+                botoesEditar();
+            }
+            else{
+                int resposta = JOptionPane.showConfirmDialog(null, "Mesa não encontrada! Deseja inserir uma nova mesa?");
+                if (resposta==0){
+                    botoesEditar();
+                    m.setIdmesa(Integer.parseInt(txtIdmesa.getText()));
+                    try{
+                        mesaDAO.inserir(m);
+                    }
+                    catch (Exception e){
+                        JOptionPane.showMessageDialog(null, "Erro ao inserir mesa: " + e);
+                    }
+                }
+            }
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Dados inválidos.");
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-        Mesa u = new Mesa();
-        u.setIdmesa(Integer.parseInt(txtIdmesa.getText()));
-        u.setDescricao(txtDescricao.getText());
-
-        if(this.mesaDAO.editar(u) == true){
-            JOptionPane.showMessageDialog(null, "Usuario editado");
-            txtIdmesa.setText("");
-            txtDescricao.setText("");
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Erro ao editar");
-        }
+       txtDescricao.setText(null);
+       botoesInicial();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
