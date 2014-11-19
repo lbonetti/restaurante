@@ -45,6 +45,8 @@ public class FormMesa extends javax.swing.JFrame {
         txtDescricao = new javax.swing.JTextField();
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        chkStatus = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de mesas");
@@ -80,61 +82,79 @@ public class FormMesa extends javax.swing.JFrame {
             }
         });
 
+        btnEditar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
+        chkStatus.setText("Desativar mesa");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(53, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(46, 46, 46))
             .addComponent(jSeparator1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtIdmesa, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtDescricao)
-                                .addGap(6, 6, 6))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtIdmesa, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(45, 45, 45))
+                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)))
+                .addGap(10, 10, 10))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(chkStatus)
+                .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(txtIdmesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtIdmesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnEditar))
+                .addGap(25, 25, 25)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(chkStatus)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalvar)
-                    .addComponent(btnCancelar))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(btnCancelar)
+                    .addComponent(btnSalvar))
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -148,23 +168,37 @@ public class FormMesa extends javax.swing.JFrame {
         txtIdmesa.setEnabled(true);
         txtIdmesa.requestFocus();
         btnPesquisar.setEnabled(true);
+        btnEditar.setEnabled(false);
     }
     
     private void botoesEditar(){
-        //btnPesquisar.setEnabled(false);
+        btnPesquisar.setEnabled(false);
         btnSalvar.setEnabled(true);
         btnCancelar.setEnabled(true);
         txtDescricao.setEnabled(true);
         txtDescricao.requestFocus();
         txtIdmesa.setEnabled(false);
+        btnEditar.setEnabled(false);
+    }
+    
+       private void botoesPesquisar(){
+        btnEditar.setEnabled(true);
+        txtDescricao.setEnabled(false);
+        btnSalvar.setEnabled(false);
+        btnCancelar.setEnabled(false);
     }
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
         Mesa m = new Mesa();
-        
+        int idmesa = Integer.parseInt(txtIdmesa.getText());
+        m.setIdmesa(idmesa);
         m.setDescricao(txtDescricao.getText());
-
+        if(chkStatus.isSelected())
+            m.setStatus("d");
+        else
+            m.setStatus("l");
+        
         if(this.mesaDAO.inserir(m) == true){
             JOptionPane.showMessageDialog(null, "Mesa cadastrada com sucesso!");
             txtIdmesa.setText("");
@@ -182,26 +216,32 @@ public class FormMesa extends javax.swing.JFrame {
             int idmesa = Integer.parseInt(txtIdmesa.getText());          
             Mesa m = this.mesaDAO.getMesaById(idmesa);
             
-            if(m.getIdmesa() != 0){
+            if(m.getStatus().equals("o")){
+                JOptionPane.showMessageDialog(null, "Mesa ocupada no momento. Não é possível editar a mesa.");
                 txtDescricao.setText(m.getDescricao());
-                botoesEditar();
+                btnEditar.setEnabled(false);
             }
-            else{
-                int resposta = JOptionPane.showConfirmDialog(null, "Mesa não encontrada! Deseja inserir uma nova mesa?");
-                if (resposta==0){
-                    botoesEditar();
-                    m.setIdmesa(Integer.parseInt(txtIdmesa.getText()));
-                    try{
-                        mesaDAO.inserir(m);
-                    }
-                    catch (Exception e){
-                        JOptionPane.showMessageDialog(null, "Erro ao inserir mesa: " + e);
-                    }
+            else
+                if(m.getIdmesa() != 0){
+                    txtDescricao.setText(m.getDescricao());
+                    botoesPesquisar();
+                }
+                else{
+                    int resposta = JOptionPane.showConfirmDialog(null, "Mesa não encontrada! Deseja inserir uma nova mesa?");
+                    if (resposta==0){
+                        botoesEditar();
+                        m.setIdmesa(Integer.parseInt(txtIdmesa.getText()));
+                        try{
+                            mesaDAO.inserir(m);
+                        }
+                        catch (Exception e){
+                            JOptionPane.showMessageDialog(null, "Erro ao inserir mesa: " + e);
+                        }
                 }
             }
         }
         catch (Exception e){
-            JOptionPane.showMessageDialog(null, "Dados inválidos.");
+            JOptionPane.showMessageDialog(null, "Dados inválidos." + e);
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
@@ -210,6 +250,11 @@ public class FormMesa extends javax.swing.JFrame {
        txtDescricao.setText(null);
        botoesInicial();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+        botoesEditar();
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -248,8 +293,10 @@ public class FormMesa extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JCheckBox chkStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
