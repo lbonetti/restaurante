@@ -16,9 +16,14 @@ import java.sql.SQLException;
  */
 public class ConnectionFactory {
     
+    //final String User = "root";
+    final String User = "root";
+    //final String PassWord = "ifsp";
+    final String PassWord = "1234";
+    
     public Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:mysql://localhost/restaurante", "root", "ifsp");
+            return DriverManager.getConnection("jdbc:mysql://localhost/restaurante", User, PassWord);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -180,8 +180,8 @@ public class FormUsuario extends javax.swing.JFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
         Mesa u = new Mesa();
-        u.setIdusuario(Integer.parseInt(txtIdusuario.getText()));
-        u.setNome(txtNome.getText());
+        //u.setIdusuario(Integer.parseInt(txtIdusuario.getText()));
+        //u.setNome(txtNome.getText());
         
         if(this.usuarioDAO.inserir(u) == true){
             JOptionPane.showMessageDialog(null, "Usuario adicionado");
@@ -194,18 +194,18 @@ public class FormUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisaActionPerformed
-        // TODO add your handling code here:
+        /*// TODO add your handling code here:
         int idusuario = Integer.parseInt(txtIdmesa.getText());
         Mesa u = this.usuarioDAO.getUsuarioById(idusuario);
         
         if(u.getNome() != null){
             txtIdusuario.setText(String.valueOf(u.getIdusuario()));
             txtNome.setText(u.getNome());
-        }        
+        }  */      
     }//GEN-LAST:event_btnPesquisaActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        // TODO add your handling code here:
+       /* // TODO add your handling code here:
         int idusuario = Integer.parseInt(txtIdusuario.getText());
         Mesa u = new Mesa();
         u.setIdusuario(idusuario);
@@ -217,11 +217,11 @@ public class FormUsuario extends javax.swing.JFrame {
         }
         else{
             JOptionPane.showMessageDialog(null, "Erro ao excluir");
-        }
+        }*/
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
+        /*// TODO add your handling code here:
         Mesa u = new Mesa();
         u.setIdusuario(Integer.parseInt(txtIdusuario.getText()));
         u.setNome(txtNome.getText());
@@ -233,7 +233,7 @@ public class FormUsuario extends javax.swing.JFrame {
         }
         else{
             JOptionPane.showMessageDialog(null, "Erro ao editar");
-        }
+        }*/
     }//GEN-LAST:event_btnEditarActionPerformed
 
     /**

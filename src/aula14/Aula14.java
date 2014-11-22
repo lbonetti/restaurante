@@ -7,7 +7,9 @@
 package aula14;
 
 import beans.Mesa;
+import beans.Produto;
 import dao.MesaDAO;
+import dao.ProdutoDAO;
 import java.sql.Connection;
 import jdbc.ConnectionFactory;
 
@@ -21,6 +23,35 @@ public class Aula14 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        //teste mesa
+        /*Mesa mesa = new Mesa();
+        MesaDAO mesaDao = new MesaDAO();
+        
+        mesa.setDescricao("Mesa 1");
+        mesa.setIdmesa(mesaDao.getNextID());
+        mesa.setStatus("L");
+        
+        if(mesaDao.inserir(mesa) == true){
+            System.out.println("Usuario adicionado");
+        }
+        else{
+            System.out.println("Erro ao adicionar usuario");
+        }*/
+        
+        //teste produto
+        /*Produto produto = new Produto();
+        ProdutoDAO pd = new ProdutoDAO();
+        
+        produto.setIdproduto(pd.getNextID());
+        produto.setDescricao("Produto 1");
+        produto.setPrecoVenda(10.4f);
+         if(pd.inserir(produto) == true){
+            System.out.println("Usuario adicionado");
+        }
+        else{
+            System.out.println("Erro ao adicionar usuario");
+        }*/
+        
         /*
         Usuario usuario = new Usuario();
         usuario.setIdusuario(3);
@@ -35,7 +66,7 @@ public class Aula14 {
             System.out.println("Erro ao adicionar usuario");
         }
         */
-        
+        /*
         Mesa u = new Mesa();
         u.setIdusuario(2);
         
@@ -46,7 +77,7 @@ public class Aula14 {
         }
         else{
             System.out.println("Erro ao excluir usuario");
-        }
+        }*/
     }
     
 }

@@ -6,8 +6,6 @@
 
 package beans;
 
-import java.math.BigDecimal;
-
 /**
  *
  * @author Aluno
@@ -15,7 +13,7 @@ import java.math.BigDecimal;
 public class Produto {
     private int idproduto;
     private String descricao;
-    private BigDecimal precoVenda;
+    private double precoVenda;
 
     public int getIdproduto() {
         return idproduto;
@@ -33,11 +31,11 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public BigDecimal getPrecoVenda() {
+    public double getPrecoVenda() {
         return precoVenda;
     }
 
-    public void setPrecoVenda(BigDecimal precoVenda) {
+    public void setPrecoVenda(double precoVenda) {
         this.precoVenda = precoVenda;
     }
     

@@ -6,29 +6,27 @@
 
 package dao;
 
-import beans.Produto;
+import beans.Venda;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author Aluno
+ * @author Anderson
  */
-public class ProdutoDAO extends GenericDAO{
-    
-    
-    public ProdutoDAO(){
+public class VendaDAO extends GenericDAO{
+    public VendaDAO(){
         super();
     }
-    
-    public boolean inserir(Produto produto){
-        String sql = "INSERT INTO produto(idproduto, descricao, precoVenda) VALUES (?, ?, ?)";
+    /*
+    public boolean inserir(Venda venda){
+        String sql = "INSERT INTO Venda(idVenda, descricao, precoVenda) VALUES (?, ?, ?)";
         try{
             this.prepareStmte(sql);
-            this.stmte.setInt(1, produto.getIdproduto());
-            this.stmte.setString(2, produto.getDescricao());
-            this.stmte.setDouble(3, produto.getPrecoVenda());
+            this.stmte.setInt(1, venda.getIdVenda());
+            this.stmte.setString(2, venda.getDescricao());
+            this.stmte.setDouble(3, venda.getPrecoVenda());
             this.stmte.execute();
             return true;
         }
@@ -37,13 +35,13 @@ public class ProdutoDAO extends GenericDAO{
         }
     }
     
-    public boolean editar(Produto produto){
-        String sql = "UPDATE produto SET descricao = ?, precoVenda=? WHERE idproduto = ?";
+    public boolean editar(Venda Venda){
+        String sql = "UPDATE Venda SET descricao = ?, precoVenda=? WHERE idVenda = ?";
         try{
             this.prepareStmte(sql);
-            this.stmte.setString(1, produto.getDescricao());
-            this.stmte.setDouble(2, produto.getPrecoVenda());
-            this.stmte.setInt(3, produto.getIdproduto());
+            this.stmte.setString(1, Venda.getDescricao());
+            this.stmte.setDouble(2, Venda.getPrecoVenda());
+            this.stmte.setInt(3, Venda.getIdVenda());
             this.stmte.execute();
             return true;
         }
@@ -52,11 +50,11 @@ public class ProdutoDAO extends GenericDAO{
         }
     }
     
-    public boolean excluir(Produto produto){
-        String sql = "DELETE FROM produto WHERE idproduto = ?";
+    public boolean excluir(Venda Venda){
+        String sql = "DELETE FROM Venda WHERE idVenda = ?";
         try{
             this.prepareStmte(sql);
-            this.stmte.setInt(1, produto.getIdproduto());
+            this.stmte.setInt(1, Venda.getIdVenda());
             this.stmte.execute();
             return true;
         }
@@ -65,27 +63,27 @@ public class ProdutoDAO extends GenericDAO{
         }
     }
     
-    public Produto getProdutoById(int idproduto){
-        Produto produto = new Produto();
-        String sql = "SELECT * FROM produto WHERE idproduto = ?";
+    public Venda getVendaById(int idVenda){
+        Venda Venda = new Venda();
+        String sql = "SELECT * FROM Venda WHERE idVenda = ?";
         
         try{
             this.prepareStmte(sql);
-            this.stmte.setInt(1, idproduto);
+            this.stmte.setInt(1, idVenda);
             ResultSet rs = this.stmte.executeQuery();
             rs.first();
-            produto.setIdproduto(rs.getInt("idproduto"));
-            produto.setDescricao(rs.getString("descricao"));
-            produto.setPrecoVenda(rs.getDouble("precoVenda"));
+            Venda.setIdVenda(rs.getInt("idVenda"));
+            Venda.setDescricao(rs.getString("descricao"));
+            Venda.setPrecoVenda(rs.getDouble("precoVenda"));
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, "Usuario nao encontrado");
         }
-        return produto;
+        return Venda;
     }
     
-    private int getProdutoCount(){
-        String sql="SELECT COUNT(idproduto) AS quantidade FROM produto";
+    private int getVendaCount(){
+        String sql="SELECT COUNT(idVenda) AS quantidade FROM Venda";
         try{
             this.prepareStmte(sql);
             ResultSet rs = this.stmte.executeQuery();
@@ -98,24 +96,24 @@ public class ProdutoDAO extends GenericDAO{
         }
     }
     
-    public Produto[] getProdutos(){
-        Produto [] produto;
-        String sql="SELECT * FROM produto";
+    public Venda[] getVendas(){
+        Venda [] Venda;
+        String sql="SELECT * FROM Venda";
         try{
             this.prepareStmte(sql);
             ResultSet rs = this.stmte.executeQuery();
-            int linhas = this.getProdutoCount();
-            produto = new Produto[linhas];
+            int linhas = this.getVendaCount();
+            Venda = new Venda[linhas];
             int x = 0;
             while(rs.next()){
-                Produto p = new Produto();
-                p.setIdproduto(rs.getInt("idproduto"));
+                Venda p = new Venda();
+                p.setIdVenda(rs.getInt("idVenda"));
                 p.setDescricao(rs.getString("descricao"));
                 p.setPrecoVenda(rs.getDouble("precoVenda"));
-                produto[x] = p;
+                Venda[x] = p;
                 x++;
             }
-            return produto;
+            return Venda;
         }
         catch(Exception e){
             return null;
@@ -123,7 +121,7 @@ public class ProdutoDAO extends GenericDAO{
     }
     
     public int getNextID() {
-        String sql="SELECT ifnull(max(idproduto),0)+1 AS id FROM produto";
+        String sql="SELECT ifnull(max(idVenda),0)+1 AS id FROM Venda";
         try{
             this.prepareStmte(sql);
             ResultSet rs = this.stmte.executeQuery();
@@ -133,5 +131,5 @@ public class ProdutoDAO extends GenericDAO{
         catch (SQLException e){
             return -1;
         }        
-    }
+    }*/
 }

@@ -8,7 +8,7 @@ package dao;
 
 import beans.Mesa;
 import java.sql.ResultSet;
-import javax.swing.JOptionPane;
+import java.sql.SQLException;
 
 /**
  *
@@ -21,10 +21,12 @@ public class MesaDAO extends GenericDAO {
     }
     
     public boolean inserir(Mesa mesa){
-        String sql = "INSERT INTO mesa(idmesa, status) VALUES (?, 'l')";
+        String sql = "INSERT INTO mesa(idmesa, descricao, status) VALUES (?, ?, ?)";
         try{
             this.prepareStmte(sql);
             this.stmte.setInt(1, mesa.getIdmesa());
+            this.stmte.setString(2, mesa.getDescricao());
+            this.stmte.setString(3, mesa.getStatus());
             this.stmte.execute();
             return true;
         }
@@ -116,5 +118,18 @@ public class MesaDAO extends GenericDAO {
         catch(Exception e){
             return null;
         }
+    }
+
+    public int getNextID() {
+        String sql="SELECT ifnull(max(idmesa),0)+1 AS id FROM mesa";
+        try{
+            this.prepareStmte(sql);
+            ResultSet rs = this.stmte.executeQuery();
+            rs.next();
+            return rs.getInt("id");
+        }
+        catch (SQLException e){
+            return -1;
+        }        
     }
 }
