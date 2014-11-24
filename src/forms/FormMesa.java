@@ -169,6 +169,8 @@ public class FormMesa extends javax.swing.JFrame {
         txtIdmesa.requestFocus();
         btnPesquisar.setEnabled(true);
         btnEditar.setEnabled(false);
+        chkStatus.setSelected(false);
+        chkStatus.setEnabled(false);
     }
     
     private void botoesEditar(){
@@ -179,6 +181,7 @@ public class FormMesa extends javax.swing.JFrame {
         txtDescricao.requestFocus();
         txtIdmesa.setEnabled(false);
         btnEditar.setEnabled(false);
+        chkStatus.setEnabled(true);
     }
     
        private void botoesPesquisar(){
@@ -190,23 +193,24 @@ public class FormMesa extends javax.swing.JFrame {
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
-        Mesa m = new Mesa();
+        
         int idmesa = Integer.parseInt(txtIdmesa.getText());
-        m.setIdmesa(idmesa);
+        Mesa m = mesaDAO.getMesaById(idmesa);
         m.setDescricao(txtDescricao.getText());
+
         if(chkStatus.isSelected())
             m.setStatus("d");
         else
             m.setStatus("l");
         
-        if(this.mesaDAO.inserir(m) == true){
-            JOptionPane.showMessageDialog(null, "Mesa cadastrada com sucesso!");
+        if(this.mesaDAO.editar(m) == true){
+            JOptionPane.showMessageDialog(null, "Alterações realizadas com sucesso!");
             txtIdmesa.setText("");
             txtDescricao.setText("");
             botoesInicial();
         }
         else{
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar mesa.");
+            JOptionPane.showMessageDialog(null, "Erro ao processar alterações.");
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -216,7 +220,7 @@ public class FormMesa extends javax.swing.JFrame {
             int idmesa = Integer.parseInt(txtIdmesa.getText());          
             Mesa m = this.mesaDAO.getMesaById(idmesa);
             
-            if(m.getStatus().equals("o")){
+            if(m.getStatus()!=null && m.getStatus().equals("o")){
                 JOptionPane.showMessageDialog(null, "Mesa ocupada no momento. Não é possível editar a mesa.");
                 txtDescricao.setText(m.getDescricao());
                 btnEditar.setEnabled(false);

@@ -35,14 +35,14 @@ public class MesaDAO extends GenericDAO {
         }
     }
     
-    public boolean editar(Mesa mesa){
+    public boolean editar(Mesa m){
         String sql = "UPDATE mesa SET descricao = ?, status=? WHERE idmesa = ?";
         try{
             this.prepareStmte(sql);
-            this.stmte.setString(1, mesa.getDescricao());
-            this.stmte.setString(2, mesa.getStatus());
-            this.stmte.setInt(3, mesa.getIdmesa());
-            this.stmte.execute();
+            this.stmte.setString(1, m.getDescricao());
+            this.stmte.setString(2, m.getStatus());
+            this.stmte.setInt(3, m.getIdmesa());
+            this.stmte.executeUpdate();
             return true;
         }
         catch(Exception e){
