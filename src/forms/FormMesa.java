@@ -25,6 +25,7 @@ public class FormMesa extends javax.swing.JFrame {
         initComponents();
         this.mesaDAO = new MesaDAO();
         botoesInicial();
+        txtIdmesa.setText(String.valueOf(mesaDAO.getNextID()));
     }
 
     /**
@@ -45,8 +46,8 @@ public class FormMesa extends javax.swing.JFrame {
         txtDescricao = new javax.swing.JTextField();
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        btnEditar = new javax.swing.JButton();
         chkStatus = new javax.swing.JCheckBox();
+        btnEditar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de mesas");
@@ -82,6 +83,8 @@ public class FormMesa extends javax.swing.JFrame {
             }
         });
 
+        chkStatus.setText("Desativar mesa");
+
         btnEditar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnEditar.setText("Editar");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -89,8 +92,6 @@ public class FormMesa extends javax.swing.JFrame {
                 btnEditarActionPerformed(evt);
             }
         });
-
-        chkStatus.setText("Desativar mesa");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -163,14 +164,16 @@ public class FormMesa extends javax.swing.JFrame {
 
     private void botoesInicial(){
         txtDescricao.setEnabled(false);
+        txtDescricao.setText(null);
         btnSalvar.setEnabled(false);
-        btnCancelar.setEnabled(false);
         txtIdmesa.setEnabled(true);
         txtIdmesa.requestFocus();
         btnPesquisar.setEnabled(true);
         btnEditar.setEnabled(false);
         chkStatus.setSelected(false);
         chkStatus.setEnabled(false);
+        btnEditar.setEnabled(false);
+        txtIdmesa.setText(null);
     }
     
     private void botoesEditar(){
@@ -187,8 +190,6 @@ public class FormMesa extends javax.swing.JFrame {
        private void botoesPesquisar(){
         btnEditar.setEnabled(true);
         txtDescricao.setEnabled(false);
-        btnSalvar.setEnabled(false);
-        btnCancelar.setEnabled(false);
     }
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -216,6 +217,8 @@ public class FormMesa extends javax.swing.JFrame {
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:
+        btnPesquisar.setEnabled(false);
+        txtIdmesa.setEnabled(false);
         try{
             int idmesa = Integer.parseInt(txtIdmesa.getText());          
             Mesa m = this.mesaDAO.getMesaById(idmesa);
@@ -223,12 +226,14 @@ public class FormMesa extends javax.swing.JFrame {
             if(m.getStatus()!=null && m.getStatus().equals("o")){
                 JOptionPane.showMessageDialog(null, "Mesa ocupada no momento. Não é possível editar a mesa.");
                 txtDescricao.setText(m.getDescricao());
-                btnEditar.setEnabled(false);
             }
             else
                 if(m.getIdmesa() != 0){
                     txtDescricao.setText(m.getDescricao());
+                    if(m.getStatus().equals("d"))
+                        chkStatus.setSelected(true);
                     botoesPesquisar();
+                    btnEditar.setEnabled(true);
                 }
                 else{
                     int resposta = JOptionPane.showConfirmDialog(null, "Mesa não encontrada! Deseja inserir uma nova mesa?");
@@ -241,7 +246,10 @@ public class FormMesa extends javax.swing.JFrame {
                         catch (Exception e){
                             JOptionPane.showMessageDialog(null, "Erro ao inserir mesa: " + e);
                         }
-                }
+                    }
+                    else{
+                        botoesInicial();
+                    }
             }
         }
         catch (Exception e){
@@ -251,7 +259,6 @@ public class FormMesa extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-       txtDescricao.setText(null);
        botoesInicial();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
