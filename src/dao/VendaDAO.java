@@ -7,8 +7,13 @@
 package dao;
 
 import beans.Venda;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,14 +24,24 @@ public class VendaDAO extends GenericDAO{
     public VendaDAO(){
         super();
     }
-    /*
+    
+    
     public boolean inserir(Venda venda){
-        String sql = "INSERT INTO Venda(idVenda, descricao, precoVenda) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO vendaandamento(dataA, idproduto, idmesa, quantidade, preco) VALUES (?, ?, ?, ?, ?)";
         try{
             this.prepareStmte(sql);
-            this.stmte.setInt(1, venda.getIdVenda());
-            this.stmte.setString(2, venda.getDescricao());
-            this.stmte.setDouble(3, venda.getPrecoVenda());
+            
+            Calendar c = new GregorianCalendar();
+            c.setTime(venda.getData());            
+            c.set(Calendar.MILLISECOND, 0);
+            Timestamp t = new Timestamp(c.getTimeInMillis());
+            
+            this.stmte.setTimestamp(1, t);
+            this.stmte.setInt(2, venda.getIdProduto());
+            this.stmte.setInt(3, venda.getIdMesa());
+            this.stmte.setDouble(4, venda.getQuantidade());
+            this.stmte.setDouble(5, venda.getPreco());
+            
             this.stmte.execute();
             return true;
         }
@@ -35,21 +50,56 @@ public class VendaDAO extends GenericDAO{
         }
     }
     
-    public boolean editar(Venda Venda){
-        String sql = "UPDATE Venda SET descricao = ?, precoVenda=? WHERE idVenda = ?";
+   
+    public boolean editar(Venda venda){
+        String sql = "UPDATE vendaandamento SET quantidade = ?, preco=? WHERE dataA = ? and idproduto = ? and idmesa = ?";
         try{
             this.prepareStmte(sql);
-            this.stmte.setString(1, Venda.getDescricao());
-            this.stmte.setDouble(2, Venda.getPrecoVenda());
-            this.stmte.setInt(3, Venda.getIdVenda());
+            this.stmte.setDouble(1, venda.getQuantidade());
+            this.stmte.setDouble(2, venda.getPreco());
+            
+            //nao encontrei outro jeito de remover os milliseconds
+            Calendar c = new GregorianCalendar();
+            c.setTime(venda.getData());            
+            c.set(Calendar.MILLISECOND, 0);
+            Timestamp t = new Timestamp(c.getTimeInMillis());
+                       
+            this.stmte.setTimestamp(3, t);
+            
+            this.stmte.setInt(4, venda.getIdProduto());
+            this.stmte.setInt(5, venda.getIdMesa());
+            
             this.stmte.execute();
             return true;
         }
         catch(Exception e){
             return false;
         }
-    }
+    } /**/
     
+    public boolean excluir(Venda venda){
+        String sql = "DELETE FROM vendaandamento WHERE dataA = ? and idproduto = ? and idmesa = ?";
+        try{
+            this.prepareStmte(sql);
+             Calendar c = new GregorianCalendar();
+            c.setTime(venda.getData());            
+            //nao encontrei outro jeito de remover os milliseconds
+            c.set(Calendar.MILLISECOND, 0);
+            Timestamp t = new Timestamp(c.getTimeInMillis());
+                       
+            this.stmte.setTimestamp(1, t);
+            this.stmte.setInt(2, venda.getIdProduto());
+            this.stmte.setInt(3, venda.getIdMesa());
+            
+            this.stmte.execute();
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    } /**/
+    
+    /*
     public boolean excluir(Venda Venda){
         String sql = "DELETE FROM Venda WHERE idVenda = ?";
         try{
@@ -61,27 +111,49 @@ public class VendaDAO extends GenericDAO{
         catch(Exception e){
             return false;
         }
-    }
-    
-    public Venda getVendaById(int idVenda){
-        Venda Venda = new Venda();
-        String sql = "SELECT * FROM Venda WHERE idVenda = ?";
-        
+    }*/
+ 
+    /**
+     *
+     * @param data 
+     * @param idProduto
+     * @param idMesa
+     * @return 
+     */
+    public Venda getVendaByIds(Date data, int idProduto,int idMesa){
+        Venda venda = new Venda();
+        String sql = "SELECT * FROM vendaandamento WHERE dataA = ? and idproduto = ? and idmesa = ?";        
         try{
             this.prepareStmte(sql);
-            this.stmte.setInt(1, idVenda);
+            Calendar c = new GregorianCalendar();
+            c.setTime(data);            
+            c.set(Calendar.MILLISECOND, 0);
+            Timestamp t = new Timestamp(c.getTimeInMillis());
+                       
+            this.stmte.setTimestamp(3, t);
+            
+            this.stmte.setInt(4, idProduto);
+            this.stmte.setInt(5, idMesa);
             ResultSet rs = this.stmte.executeQuery();
-            rs.first();
-            Venda.setIdVenda(rs.getInt("idVenda"));
-            Venda.setDescricao(rs.getString("descricao"));
-            Venda.setPrecoVenda(rs.getDouble("precoVenda"));
+            if (rs.first())
+            {
+                venda.setData(data);
+                venda.setIdMesa(idMesa);
+                venda.setIdProduto(idProduto);
+                venda.setPreco(rs.getDouble("preco"));
+                venda.setQuantidade(rs.getDouble("quantidade"));            
+            }
+            else
+               JOptionPane.showMessageDialog(null, "Registro não encontrado");
+                
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Usuario nao encontrado");
+            JOptionPane.showMessageDialog(null, "Erro");
         }
-        return Venda;
+        return venda;
     }
     
+    /*
     private int getVendaCount(){
         String sql="SELECT COUNT(idVenda) AS quantidade FROM Venda";
         try{
@@ -95,41 +167,33 @@ public class VendaDAO extends GenericDAO{
             return 0;
         }
     }
-    
-    public Venda[] getVendas(){
-        Venda [] Venda;
-        String sql="SELECT * FROM Venda";
+    */
+
+    public ArrayList<Venda> getVendasByMesa(int idMesa) {
+       
+        ArrayList<Venda> r = new ArrayList<>();
+        String sql = "SELECT * FROM vendaandamento WHERE idmesa = ?";        
         try{
             this.prepareStmte(sql);
+            this.stmte.setInt(1, idMesa);
             ResultSet rs = this.stmte.executeQuery();
-            int linhas = this.getVendaCount();
-            Venda = new Venda[linhas];
-            int x = 0;
-            while(rs.next()){
-                Venda p = new Venda();
-                p.setIdVenda(rs.getInt("idVenda"));
-                p.setDescricao(rs.getString("descricao"));
-                p.setPrecoVenda(rs.getDouble("precoVenda"));
-                Venda[x] = p;
-                x++;
+            while (rs.next())
+            {
+                Venda venda = new Venda();
+                venda.setData(rs.getTimestamp("data"));
+                venda.setIdMesa(idMesa);
+                venda.setIdProduto(rs.getInt("idproduto"));
+                venda.setPreco(rs.getDouble("preco"));
+                venda.setQuantidade(rs.getDouble("quantidade"));
+                r.add(venda);
             }
-            return Venda;
+            //
+            //   JOptionPane.showMessageDialog(null, "Registro não encontrado");
+                
         }
         catch(Exception e){
-            return null;
+            JOptionPane.showMessageDialog(null, "Erro");
         }
+        return r;
     }
-    
-    public int getNextID() {
-        String sql="SELECT ifnull(max(idVenda),0)+1 AS id FROM Venda";
-        try{
-            this.prepareStmte(sql);
-            ResultSet rs = this.stmte.executeQuery();
-            rs.next();
-            return rs.getInt("id");
-        }
-        catch (SQLException e){
-            return -1;
-        }        
-    }*/
 }

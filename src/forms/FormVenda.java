@@ -3,10 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package forms;
 
+import beans.Mesa;
+import beans.Produto;
+import beans.Venda;
+import dao.MesaDAO;
+import dao.ProdutoDAO;
+import dao.VendaDAO;
+import java.awt.List;
+import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,8 +35,119 @@ public class FormVenda extends javax.swing.JFrame {
     /**
      * Creates new form FormVenda
      */
+    private Mesa mesa = new Mesa();
+    private final MesaDAO mesaDAO = new MesaDAO();
+    private final VendaDAO vendaDAO = new VendaDAO();
+    private final ProdutoDAO produtoDAO = new ProdutoDAO();
+    private String operacao = "";
+    private int rowSelected = 0;
+
     public FormVenda() {
         initComponents();
+    }
+
+    private void loadVendaMesa(int idmesa) {
+
+        ArrayList<Venda> vendaMesa = new ArrayList<Venda>();
+
+        vendaMesa = vendaDAO.getVendasByMesa(idmesa);
+        Produto p = new Produto();
+        DefaultTableModel tabelaVenda = (DefaultTableModel) tblItens.getModel();
+
+        for (Venda v : vendaMesa) {
+            if (v != null) {
+                p = produtoDAO.getProdutoById(v.getIdProduto());
+                DecimalFormat df = new DecimalFormat("#,###.00");
+                String qtd = df.format(v.getQuantidade());
+                String tot = df.format(v.getQuantidade() * v.getPreco());
+                Object[] objects = new Object[]{
+                    v.getDateTime(),
+                    v.getIdProduto(),
+                    p.getDescricao(),
+                    qtd,
+                    tot};
+                tabelaVenda.addRow(objects);
+            }
+        }
+    }
+
+    private void cancelar(int Nivel) {
+        edtPreco.setText("");
+        edtQuantidade.setText("");
+        lblDescProduto.setText("");
+        if (Nivel == 1) {
+            btnInserir.setEnabled(true);
+            btnEditar.setEnabled(true);
+            btnSalvar.setEnabled(false);
+            btnExcluir.setEnabled(false);
+            edtCodigo.setEnabled(true);
+            edtQuantidade.setEnabled(false);
+            edtPreco.setEnabled(false);
+            edtCodigo.requestFocus();
+            edtCodigo.setText("");
+            tblItens.setEnabled(true);
+        }
+
+        if (Nivel == 2) {
+            edtIdMesa.requestFocus();
+        }
+    }
+
+    private void consultarProduto(String op) {
+        DefaultTableModel tabelaVenda = (DefaultTableModel) tblItens.getModel();        
+        int idproduto = 0;
+        //se estiver editando, pega o codigo do jtable
+        if (op.equals("E")) {
+            idproduto = Integer.parseInt(tabelaVenda.getValueAt(tblItens.getSelectedRow(), 1).toString());
+        } else if (op.equals("I")) {
+            //senao pega do textfield
+            idproduto = Integer.parseInt(edtCodigo.getText());
+        }
+        
+        
+
+        Produto p = new Produto();
+        p = produtoDAO.getProdutoById(idproduto);
+        if (p.getIdproduto() == 0) {
+            JOptionPane.showMessageDialog(null, "Produto não encontrado");
+            edtCodigo.requestFocus();
+            edtCodigo.selectAll();
+            return;
+        }
+
+        operacao = op;
+
+        // <editor-fold defaultstate="collapsed" desc="Habilita e desabilita campos">
+        btnSalvar.setEnabled(true);
+        btnInserir.setEnabled(false);
+        btnEditar.setEnabled(false);
+
+        edtCodigo.setEnabled(false);
+        edtPreco.setEnabled(true);
+        edtQuantidade.setEnabled(true);
+        // </editor-fold>
+        
+        double precoVenda = 0;
+
+        if (op.equals("I")) {
+            btnExcluir.setEnabled(false);
+            precoVenda = p.getPrecoVenda();
+
+        } else if (op.equals("E")) {
+            btnExcluir.setEnabled(true);
+            double q, t;
+            q = Double.parseDouble(tabelaVenda.getValueAt(tblItens.getSelectedRow(), 3).toString().replace(",", "."));
+            t = Double.parseDouble(tabelaVenda.getValueAt(tblItens.getSelectedRow(), 4).toString().replace(",", "."));
+            precoVenda = t / q;
+            edtQuantidade.setText(Double.toString(q));
+            edtCodigo.setText(Integer.toString(idproduto));
+        }
+
+        lblDescProduto.setText(p.getDescricao());
+        edtPreco.setText(Double.toString(precoVenda));
+        edtQuantidade.requestFocus();
+        rowSelected = tblItens.getSelectedRow();
+        tblItens.setEnabled(false);
     }
 
     /**
@@ -34,98 +163,123 @@ public class FormVenda extends javax.swing.JFrame {
         edtIdMesa = new javax.swing.JTextField();
         lblDescMesa = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        tblItens = new javax.swing.JTable();
+        btnInserir = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnSalvar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        btnExcluir = new javax.swing.JButton();
+        edtCodigo = new javax.swing.JTextField();
+        edtPreco = new javax.swing.JTextField();
+        edtQuantidade = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lblDescProduto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Mesa.:");
 
+        edtIdMesa.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                edtIdMesaFocusGained(evt);
+            }
+        });
         edtIdMesa.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 edtIdMesaKeyPressed(evt);
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblItens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "Descrição", "Quantidade", "Total"
+                "Data", "Código", "Descrição", "Quantidade", "Total"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
             };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        jTable1.setEnabled(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(50);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(50);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(65);
-            jTable1.getColumnModel().getColumn(2).setMinWidth(120);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(2).setMaxWidth(120);
-            jTable1.getColumnModel().getColumn(3).setMinWidth(120);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(3).setMaxWidth(120);
+        tblItens.setFocusable(false);
+        tblItens.setMaximumSize(new java.awt.Dimension(605, 0));
+        tblItens.setMinimumSize(new java.awt.Dimension(605, 0));
+        tblItens.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(tblItens);
+        if (tblItens.getColumnModel().getColumnCount() > 0) {
+            tblItens.getColumnModel().getColumn(1).setMinWidth(50);
+            tblItens.getColumnModel().getColumn(1).setPreferredWidth(50);
+            tblItens.getColumnModel().getColumn(1).setMaxWidth(50);
+            tblItens.getColumnModel().getColumn(2).setMinWidth(240);
+            tblItens.getColumnModel().getColumn(2).setPreferredWidth(240);
+            tblItens.getColumnModel().getColumn(2).setMaxWidth(240);
+            tblItens.getColumnModel().getColumn(3).setMinWidth(120);
+            tblItens.getColumnModel().getColumn(3).setPreferredWidth(120);
+            tblItens.getColumnModel().getColumn(3).setMaxWidth(120);
+            tblItens.getColumnModel().getColumn(4).setMinWidth(120);
+            tblItens.getColumnModel().getColumn(4).setPreferredWidth(120);
+            tblItens.getColumnModel().getColumn(4).setMaxWidth(120);
         }
 
-        jButton4.setText("Inserir");
-        jButton4.setEnabled(false);
-        jButton4.setPreferredSize(new java.awt.Dimension(75, 23));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnInserir.setText("Inserir");
+        btnInserir.setEnabled(false);
+        btnInserir.setPreferredSize(new java.awt.Dimension(75, 23));
+        btnInserir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnInserirActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Editar");
-        jButton5.setEnabled(false);
-        jButton5.setPreferredSize(new java.awt.Dimension(75, 23));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setText("Editar");
+        btnEditar.setEnabled(false);
+        btnEditar.setPreferredSize(new java.awt.Dimension(75, 23));
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
 
-        jButton6.setText("Salvar");
-        jButton6.setEnabled(false);
-        jButton6.setPreferredSize(new java.awt.Dimension(75, 23));
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnSalvar.setText("Salvar");
+        btnSalvar.setEnabled(false);
+        btnSalvar.setPreferredSize(new java.awt.Dimension(75, 23));
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnSalvarActionPerformed(evt);
             }
         });
 
-        jButton7.setText("Cancelar");
-        jButton7.setEnabled(false);
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setEnabled(false);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
-        jButton8.setText("Excluir");
-        jButton8.setEnabled(false);
-        jButton8.setPreferredSize(new java.awt.Dimension(75, 23));
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        btnExcluir.setText("Excluir");
+        btnExcluir.setEnabled(false);
+        btnExcluir.setPreferredSize(new java.awt.Dimension(75, 23));
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                btnExcluirActionPerformed(evt);
             }
         });
+
+        edtPreco.setEditable(false);
+
+        jLabel2.setText("Código:");
+
+        jLabel3.setText("Preço:");
+
+        jLabel4.setText("Quantidade:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,75 +287,233 @@ public class FormVenda extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(edtIdMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblDescMesa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnInserir, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(27, 27, 27))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(edtQuantidade, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                                    .addComponent(edtPreco))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(edtIdMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(edtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblDescProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblDescMesa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(edtIdMesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDescMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(edtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDescProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(edtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(edtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabel2)))
+                .addGap(21, 21, 21)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(edtIdMesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDescMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(60, 60, 60)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnInserir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar)
+                    .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
+        consultarProduto("I");
+    }//GEN-LAST:event_btnInserirActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        Venda v = new Venda();
+        Produto p = new Produto();
+        DefaultTableModel tabelaVenda = (DefaultTableModel) tblItens.getModel();
+        p = produtoDAO.getProdutoById(Integer.parseInt(edtCodigo.getText()));
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+        if (operacao.equals("I")) {
+            Calendar c = new GregorianCalendar();
+            //mes no Calendar inicia no 0
+            c.setTime(new Date());
+            v.setData(c.getTime());
+            v.setIdMesa(Integer.parseInt(edtIdMesa.getText()));
+            v.setIdProduto(Integer.parseInt(edtCodigo.getText()));
+            v.setPreco(Double.parseDouble(edtPreco.getText()));
+            v.setQuantidade(Double.parseDouble(edtQuantidade.getText()));
+            if (vendaDAO.inserir(v)) {
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+                DecimalFormat df = new DecimalFormat("#,###.00");
+                String qtd = df.format(v.getQuantidade());
+                String tot = df.format(v.getQuantidade() * v.getPreco());
+                Object[] objects = new Object[]{
+                    v.getDateTime(),
+                    v.getIdProduto(),
+                    p.getDescricao(),
+                    qtd,
+                    tot};
+                tabelaVenda.addRow(objects);
+            }
+        } else if (operacao.equals("E")) {
+            //Calendar c = new GregorianCalendar();
+            //mes no Calendar inicia no 0
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date d = null;
+            try {
+                d = dateFormat.parse(tabelaVenda.getValueAt(rowSelected, 0).toString());
+            } catch (ParseException ex) {
+                Logger.getLogger(FormVenda.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            v.setData(d);
+            v.setIdMesa(Integer.parseInt(edtIdMesa.getText()));
+            v.setIdProduto(Integer.parseInt(edtCodigo.getText()));
+            v.setPreco(Double.parseDouble(edtPreco.getText()));
+            v.setQuantidade(Double.parseDouble(edtQuantidade.getText()));
+            if (vendaDAO.editar(v)) {
+
+                DecimalFormat df = new DecimalFormat("#,###.00");
+                String qtd = df.format(v.getQuantidade());
+                String tot = df.format(v.getQuantidade() * v.getPreco());
+                Object[] objects = new Object[]{
+                    v.getDateTime(),
+                    v.getIdProduto(),
+                    p.getDescricao(),
+                    qtd,
+                    tot};
+                tabelaVenda.setValueAt(qtd, rowSelected, 3);
+                tabelaVenda.setValueAt(tot, rowSelected, 4);
+            }
+        }
+
+        cancelar(1);
+
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        if (edtQuantidade.isEnabled()) {
+            cancelar(1);
+        } else if (edtCodigo.isEnabled()) {
+            cancelar(2);
+        }
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void edtIdMesaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edtIdMesaKeyPressed
-        if (evt.getKeyCode() == evt.VK_ENTER)
-        {
-            
+        // limpa a descricao da mesa quando alguma coisa for digitada
+        lblDescMesa.setText("");
+
+        //se for pressionado a tecla <Enter> executa o bloco abaixo
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            int idmesa = Integer.parseInt(edtIdMesa.getText());
+            mesa = mesaDAO.getMesaById(idmesa);
+            if (mesa.getIdmesa() == 0) {
+                JOptionPane.showMessageDialog(null, "Mesa não encontrada");
+                edtIdMesa.selectAll();
+                return;
+            }
+
+            loadVendaMesa(idmesa);
+
+            lblDescMesa.setText(mesa.getDescricao());
+            edtCodigo.setEnabled(true);
+            edtCodigo.requestFocus();
+            tblItens.setEnabled(true);
+            btnInserir.setEnabled(true);
+            btnEditar.setEnabled(true);
+            btnSalvar.setEnabled(false);
+            btnCancelar.setEnabled(true);
         }
     }//GEN-LAST:event_edtIdMesaKeyPressed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        DefaultTableModel tabelaVenda = (DefaultTableModel) tblItens.getModel();
+        Venda v = new Venda();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date d = null;
+        try {
+            d = dateFormat.parse(tabelaVenda.getValueAt(rowSelected, 0).toString());
+        } catch (ParseException ex) {
+            Logger.getLogger(FormVenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        v.setData(d);
+        v.setIdMesa(Integer.parseInt(edtIdMesa.getText()));
+        v.setIdProduto(Integer.parseInt(tabelaVenda.getValueAt(rowSelected, 1).toString()));
+        if (vendaDAO.excluir(v))
+        {
+            JOptionPane.showMessageDialog(null, "Excluido com sucesso");
+            tabelaVenda.removeRow(rowSelected);
+            cancelar(1);
+        }
+        else
+            JOptionPane.showMessageDialog(null, "Erro");
+        
+        
+        
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void edtIdMesaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_edtIdMesaFocusGained
+        DefaultTableModel model = (DefaultTableModel) tblItens.getModel();
+        model.setRowCount(0);
+        btnCancelar.setEnabled(false);
+        btnEditar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+        btnInserir.setEnabled(false);
+        btnSalvar.setEnabled(false);
+        tblItens.setEnabled(false);
+        edtCodigo.setEnabled(false);
+        edtPreco.setEnabled(false);
+        edtQuantidade.setEnabled(false);
+        edtCodigo.setText("");
+        edtIdMesa.selectAll();
+    }//GEN-LAST:event_edtIdMesaFocusGained
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        consultarProduto("E");
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,15 +551,23 @@ public class FormVenda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnExcluir;
+    private javax.swing.JButton btnInserir;
+    private javax.swing.JButton btnSalvar;
+    private javax.swing.JTextField edtCodigo;
     private javax.swing.JTextField edtIdMesa;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
+    private javax.swing.JTextField edtPreco;
+    private javax.swing.JTextField edtQuantidade;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblDescMesa;
+    private javax.swing.JLabel lblDescProduto;
+    private javax.swing.JTable tblItens;
     // End of variables declaration//GEN-END:variables
+
 }

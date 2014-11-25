@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package beans;
 
 import java.util.Date;
@@ -13,16 +12,11 @@ import java.text.SimpleDateFormat;
 /**
  *
  * @author Anderson
-
-private String getDateTime() {
-    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    Date date = new Date();
-    return dateFormat.format(date);
-}
- * 
+ *
+ *
  */
 public class Venda {
-    
+
     private Date data;
     private int idProduto;
     private int idMesa;
@@ -68,5 +62,10 @@ public class Venda {
     public void setPreco(double preco) {
         this.preco = preco;
     }
-    
+
+    public String getDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        return dateFormat.format(data);
+    }
+
 }
