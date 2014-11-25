@@ -64,7 +64,7 @@ public class ProdutoDAO extends GenericDAO{
             produto.setPrecoVenda(rs.getDouble("precoVenda"));
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Usuario nao encontrado");
+            
         }
         return produto;
     }

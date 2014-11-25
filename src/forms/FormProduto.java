@@ -234,7 +234,7 @@ public class FormProduto extends javax.swing.JFrame {
 
             if(p.getIdproduto() != 0){                
                 txtDescricao.setText(p.getDescricao());
-                txtPreco.setText(p.getPrecoVenda());
+                txtPreco.setText(String.valueOf(p.getPrecoVenda()));
                 botoesPesquisar();
                 btnEditar.setEnabled(true);
              }
