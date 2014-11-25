@@ -23,12 +23,10 @@ public class ProdutoDAO extends GenericDAO{
     }
     
     public boolean inserir(Produto produto){
-        String sql = "INSERT INTO produto(idproduto, descricao, precoVenda) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO produto(idproduto) VALUES (?)";
         try{
             this.prepareStmte(sql);
             this.stmte.setInt(1, produto.getIdproduto());
-            this.stmte.setString(2, produto.getDescricao());
-            this.stmte.setDouble(3, produto.getPrecoVenda());
             this.stmte.execute();
             return true;
         }
@@ -44,19 +42,6 @@ public class ProdutoDAO extends GenericDAO{
             this.stmte.setString(1, produto.getDescricao());
             this.stmte.setDouble(2, produto.getPrecoVenda());
             this.stmte.setInt(3, produto.getIdproduto());
-            this.stmte.execute();
-            return true;
-        }
-        catch(Exception e){
-            return false;
-        }
-    }
-    
-    public boolean excluir(Produto produto){
-        String sql = "DELETE FROM produto WHERE idproduto = ?";
-        try{
-            this.prepareStmte(sql);
-            this.stmte.setInt(1, produto.getIdproduto());
             this.stmte.execute();
             return true;
         }

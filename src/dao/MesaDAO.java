@@ -48,20 +48,7 @@ public class MesaDAO extends GenericDAO {
             return false;
         }
     }
-    
-    public boolean excluir(Mesa mesa){
-        String sql = "DELETE FROM mesa WHERE idmesa = ?";
-        try{
-            this.prepareStmte(sql);
-            this.stmte.setInt(1, mesa.getIdmesa());
-            this.stmte.execute();
-            return true;
-        }
-        catch(Exception e){
-            return false;
-        }
-    }
-    
+
     public Mesa getMesaById(int idmesa){
         Mesa mesa = new Mesa();
         String sql = "SELECT * FROM mesa WHERE idmesa = ?";
