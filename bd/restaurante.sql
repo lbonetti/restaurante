@@ -95,19 +95,19 @@ BEGIN
   DECLARE dataX DATETIME;    
   DECLARE idmesaV INT;
   DECLARE dataV DATETIME;   
-  DECLARE busVendaEN CURSOR FOR SELECT ordemVenda, dataA, idmesa FROM `restaurante`.`vendaEncerrada` WHERE ordemVenda = (SELECT max(ordemVenda) FROM `restaurante`.`vendaEncerrada`);  
+  DECLARE busVendaEN CURSOR FOR SELECT ordemVenda, idmesa FROM `restaurante`.`vendaEncerrada` WHERE ordemVenda = (SELECT max(ordemVenda) FROM `restaurante`.`vendaEncerrada`);  
   OPEN busVendaEN;
   SET idmesaV = idmesaA;
   SET dataV = dataP;
-  FETCH busVendaEN INTO o, dataX, idmesaX;
+  FETCH busVendaEN INTO o, idmesaX;
        IF fim = 0 THEN
-		  CALL ProInvendaEncerrada2(dataV, idmesaV, o, dataX, idmesaX);
+		  CALL ProInvendaEncerrada2(dataV, idmesaV, o, idmesaX);
 	   END IF;	   
   CLOSE busVendaEN;
  END
 // 
 
-CREATE PROCEDURE ProInvendaEncerrada2(IN dataD DATETIME, IN idmesaD INT, In ordemMesaE INT, IN dataVe DATETIME, IN idmesVe INT)
+CREATE PROCEDURE ProInvendaEncerrada2(IN dataD DATETIME, IN idmesaD INT, In ordemMesaE INT, IN idmesVe INT)
 BEGIN
   DECLARE fim2 INT DEFAULT 0;
   DECLARE ordem INT DEFAULT 0;
@@ -123,7 +123,7 @@ BEGIN
   OPEN busVenda;
 --  read_loop: LOOP
 	FETCH busVenda INTO da, idm, idp, qua, pre;	
-       IF dataVe = dataD AND idmesVe = idmesaD THEN
+       IF idmesVe = idmesaD THEN
 		  INSERT INTO `restaurante`.`vendaEncerrada` VALUES (ordem, da, idm, idp, qua, pre);
 	   elseif fim2 > 1 THEN
 		  INSERT INTO `restaurante`.`vendaEncerrada` VALUES (fim2, da, idm, idp, qua, pre);
@@ -138,12 +138,13 @@ BEGIN
 DELIMITER ;
 
 -- --
-INSERT INTO mesa VALUES (1, 'MESA 1', 'o');
+-- INSERT INTO mesa VALUES (1, 'MESA 1', 'o');
 -- INSERT INTO mesa VALUES (2, 'MESA 2', 'o');
-INSERT INTO produto VALUES (1, 'Protsjakasd', 123);
+-- INSERT INTO produto VALUES (1, 'Protsjakasd', 123);
+-- INSERT INTO produto VALUES (2, 'Prot', 123);
 -- INSERT INTO produto VALUES (3, 'asasdas', 123124);
-INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:00', 1, 1, 2, 123);
+-- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:00', 1, 1, 2, 123);
 -- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:00', 3, 1, 2, 123);
--- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:01', 1, 1, 4, 123);
+-- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:00', 2, 1, 4, 123);
 -- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:00', 1, 2, 2, 123);
 INSERT INTO vendaEncerrada VALUES (0, '0000-00-00 00:00:00', 0, 0, 0, 0);
