@@ -259,6 +259,7 @@ public class FormProduto extends javax.swing.JFrame {
         }
         catch (Exception e){
             JOptionPane.showMessageDialog(null, "Dados inválidos." + e);
+            botoesInicial();
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
