@@ -15,10 +15,9 @@ import javax.swing.table.DefaultTableModel;
  * @author Aluno
  */
 public class FormRelatorioMesas extends javax.swing.JFrame {
+     private Mesa[] mesas;
     
     private void preencheTabela(){
-        MesaDAO mesaDAO = new MesaDAO();
-        Mesa[] mesas = mesaDAO.getMesas();
         DefaultTableModel tabelaMesas = (DefaultTableModel) tblMesas.getModel();
         
         for (int i=0; i<mesas.length;i++){
@@ -36,6 +35,8 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
      */
     public FormRelatorioMesas() {
         initComponents();
+        MesaDAO mesaDAO = new MesaDAO();
+        mesas = mesaDAO.getMesas();
         preencheTabela();
     }
 
