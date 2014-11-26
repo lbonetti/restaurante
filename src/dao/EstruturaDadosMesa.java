@@ -81,7 +81,7 @@ public class EstruturaDadosMesa {
    //--------------------------------------------------------------
 //Método de pesquisa binária ....
 //--------------------------------------------------------------
-/*   public int find(long searchKey)
+   public Mesa find(int idmesa)
       {
       int lowerBound = 0;
       int upperBound = nElems-1;
@@ -90,18 +90,18 @@ public class EstruturaDadosMesa {
       while(true)
          {
          curIn = (lowerBound + upperBound ) / 2;
-         if(a[curIn]==searchKey)
-            return curIn;              // encontrei!
+         if(m[curIn].getIdmesa()==idmesa)
+            return m[curIn];              // encontrei!
          else if(lowerBound > upperBound)
-            return nElems;             // não pude encontra-lo
+            return null;             // não pude encontra-lo
          else                          // divide o range
             {
-            if(a[curIn] < searchKey)
+            if(m[curIn].getIdmesa() < idmesa)
                lowerBound = curIn + 1; // esta na metade de cima
             else
                upperBound = curIn - 1; // esta na metade de baixo
             }  // fim do else de divisão de range
          }  // fim do while
-      }  // fim do método de pesquisa binária()*/
+      }  // fim do método de pesquisa binária()
 //--------------------------------------------------------------
 }
