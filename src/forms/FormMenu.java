@@ -37,9 +37,9 @@ public class FormMenu extends javax.swing.JFrame {
         lblCadastroMesa1 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
-        lblCadastroMesa2 = new javax.swing.JLabel();
-        lblCadastroMesa3 = new javax.swing.JLabel();
-        lblCadastroMesa4 = new javax.swing.JLabel();
+        lblRelatorioMesa = new javax.swing.JLabel();
+        lblRelatorioProduto = new javax.swing.JLabel();
+        lblRelatorioVendas = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de gerenciamento de restaurante");
@@ -82,30 +82,30 @@ public class FormMenu extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setText("Operação");
 
-        lblCadastroMesa2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblCadastroMesa2.setForeground(new java.awt.Color(51, 51, 255));
-        lblCadastroMesa2.setText("Relatório de mesas");
-        lblCadastroMesa2.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblRelatorioMesa.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblRelatorioMesa.setForeground(new java.awt.Color(51, 51, 255));
+        lblRelatorioMesa.setText("Relatório de mesas");
+        lblRelatorioMesa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCadastroMesa2MouseClicked(evt);
+                lblRelatorioMesaMouseClicked(evt);
             }
         });
 
-        lblCadastroMesa3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblCadastroMesa3.setForeground(new java.awt.Color(51, 51, 255));
-        lblCadastroMesa3.setText("Relatório de produtos");
-        lblCadastroMesa3.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblRelatorioProduto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblRelatorioProduto.setForeground(new java.awt.Color(51, 51, 255));
+        lblRelatorioProduto.setText("Relatório de produtos");
+        lblRelatorioProduto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCadastroMesa3MouseClicked(evt);
+                lblRelatorioProdutoMouseClicked(evt);
             }
         });
 
-        lblCadastroMesa4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblCadastroMesa4.setForeground(new java.awt.Color(51, 51, 255));
-        lblCadastroMesa4.setText("Relatório de vendas");
-        lblCadastroMesa4.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblRelatorioVendas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblRelatorioVendas.setForeground(new java.awt.Color(51, 51, 255));
+        lblRelatorioVendas.setText("Relatório de vendas");
+        lblRelatorioVendas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCadastroMesa4MouseClicked(evt);
+                lblRelatorioVendasMouseClicked(evt);
             }
         });
 
@@ -125,9 +125,9 @@ public class FormMenu extends javax.swing.JFrame {
                             .addComponent(lblCadastroMesa1)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
-                            .addComponent(lblCadastroMesa2)
-                            .addComponent(lblCadastroMesa3)
-                            .addComponent(lblCadastroMesa4)))
+                            .addComponent(lblRelatorioMesa)
+                            .addComponent(lblRelatorioProduto)
+                            .addComponent(lblRelatorioVendas)))
                     .addComponent(jSeparator2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -154,11 +154,11 @@ public class FormMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblCadastroMesa2)
+                .addComponent(lblRelatorioMesa)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblCadastroMesa3)
+                .addComponent(lblRelatorioProduto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblCadastroMesa4)
+                .addComponent(lblRelatorioVendas)
                 .addContainerGap(92, Short.MAX_VALUE))
         );
 
@@ -184,17 +184,18 @@ public class FormMenu extends javax.swing.JFrame {
         frm.setVisible(true);
     }//GEN-LAST:event_lblCadastroMesa1MouseClicked
 
-    private void lblCadastroMesa2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastroMesa2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblCadastroMesa2MouseClicked
+    private void lblRelatorioMesaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRelatorioMesaMouseClicked
+        FormRelatorioMesas frm = new FormRelatorioMesas();
+        frm.setVisible(true);
+    }//GEN-LAST:event_lblRelatorioMesaMouseClicked
 
-    private void lblCadastroMesa3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastroMesa3MouseClicked
+    private void lblRelatorioProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRelatorioProdutoMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblCadastroMesa3MouseClicked
+    }//GEN-LAST:event_lblRelatorioProdutoMouseClicked
 
-    private void lblCadastroMesa4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastroMesa4MouseClicked
+    private void lblRelatorioVendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRelatorioVendasMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblCadastroMesa4MouseClicked
+    }//GEN-LAST:event_lblRelatorioVendasMouseClicked
 
     /**
      * @param args the command line arguments
@@ -240,9 +241,9 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel lblCadastroMesa;
     private javax.swing.JLabel lblCadastroMesa1;
-    private javax.swing.JLabel lblCadastroMesa2;
-    private javax.swing.JLabel lblCadastroMesa3;
-    private javax.swing.JLabel lblCadastroMesa4;
     private javax.swing.JLabel lblCadastroProduto;
+    private javax.swing.JLabel lblRelatorioMesa;
+    private javax.swing.JLabel lblRelatorioProduto;
+    private javax.swing.JLabel lblRelatorioVendas;
     // End of variables declaration//GEN-END:variables
 }
