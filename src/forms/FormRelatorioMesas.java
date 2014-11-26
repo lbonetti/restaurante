@@ -7,6 +7,7 @@
 package forms;
 
 import beans.Mesa;
+import dao.EstruturaDadosMesa;
 import dao.MesaDAO;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,10 +17,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FormRelatorioMesas extends javax.swing.JFrame {
      private Mesa[] mesas;
+     EstruturaDadosMesa e = new EstruturaDadosMesa();
     
     private void preencheTabela(){
+      
         DefaultTableModel tabelaMesas = (DefaultTableModel) tblMesas.getModel();
-        
+        tabelaMesas.setNumRows(0);
         for (int i=0; i<mesas.length;i++){
             Object[] obj = new Object[]{
                 mesas[i].getIdmesa(),
@@ -35,8 +38,7 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
      */
     public FormRelatorioMesas() {
         initComponents();
-        MesaDAO mesaDAO = new MesaDAO();
-        mesas = mesaDAO.getMesas();
+        mesas = e.insertionSortCrescente();
         preencheTabela();
     }
 
@@ -53,6 +55,8 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMesas = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
+        btnCrescente = new javax.swing.JButton();
+        btnDecrescente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Relatório de Usuários");
@@ -78,6 +82,20 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblMesas);
 
+        btnCrescente.setText("Crescente");
+        btnCrescente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrescenteActionPerformed(evt);
+            }
+        });
+
+        btnDecrescente.setText("Decrescente");
+        btnDecrescente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDecrescenteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,11 +105,17 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(58, 58, 58)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
+                        .addGap(161, 161, 161)
                         .addComponent(jLabel1)))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(124, 124, 124)
+                .addComponent(btnCrescente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnDecrescente)
+                .addGap(181, 181, 181))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,13 +125,29 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(13, 13, 13)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCrescente)
+                    .addComponent(btnDecrescente))
+                .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCrescenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrescenteActionPerformed
+        // TODO add your handling code here:
+        mesas = e.insertionSortCrescente();
+        preencheTabela();
+    }//GEN-LAST:event_btnCrescenteActionPerformed
+
+    private void btnDecrescenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecrescenteActionPerformed
+        // TODO add your handling code here:
+        mesas = e.insertionSortDecrescente();
+        preencheTabela();
+    }//GEN-LAST:event_btnDecrescenteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,6 +185,8 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCrescente;
+    private javax.swing.JButton btnDecrescente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
