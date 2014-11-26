@@ -19,7 +19,7 @@ public class ConnectionFactory {
     //final String User = "root";
     final String User = "root";
     //final String PassWord = "ifsp";
-    final String PassWord = "ifsp";
+    final String PassWord = "1234";
     
     public Connection getConnection() {
         try {
