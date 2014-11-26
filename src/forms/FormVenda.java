@@ -488,11 +488,6 @@ public class FormVenda extends javax.swing.JFrame {
             tabelaVenda.removeRow(rowSelected);
             cancelar(1);
         }
-        else
-            JOptionPane.showMessageDialog(null, "Erro");
-        
-        
-        
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void edtIdMesaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_edtIdMesaFocusGained

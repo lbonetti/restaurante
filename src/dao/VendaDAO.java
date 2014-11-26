@@ -95,6 +95,7 @@ public class VendaDAO extends GenericDAO{
             return true;
         }
         catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Erro "+e.getMessage());
             return false;
         }
     } /**/
@@ -192,7 +193,7 @@ public class VendaDAO extends GenericDAO{
                 
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Erro");
+            JOptionPane.showMessageDialog(null, "Erro "+e.getMessage());
         }
         return r;
     }
