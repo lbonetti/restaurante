@@ -7,6 +7,7 @@
 package dao;
 
 import beans.Venda;
+import beans.VendaEncerrada;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -154,21 +155,24 @@ public class VendaDAO extends GenericDAO{
         return venda;
     }
     
-    /*
-    private int getVendaCount(){
-        String sql="SELECT COUNT(idVenda) AS quantidade FROM Venda";
+    
+    public int getCountVendaEncerrada(){
+        String sql="SELECT COUNT(*) AS quantidade FROM vendaencerrada";
         try{
             this.prepareStmte(sql);
             ResultSet rs = this.stmte.executeQuery();
-            rs.next();
-            int i = rs.getInt("quantidade");
+            int i = 0;
+            if (rs.next())
+                i = rs.getInt("quantidade");
+            
             return i;
         }
-        catch (Exception e){
+        catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Erro: "+e.getMessage());
             return 0;
         }
     }
-    */
+    
 
     public ArrayList<Venda> getVendasByMesa(int idMesa) {
        
@@ -196,5 +200,33 @@ public class VendaDAO extends GenericDAO{
             JOptionPane.showMessageDialog(null, "Erro "+e.getMessage());
         }
         return r;
+    }
+
+    VendaEncerrada[] getVendasEncerradas() {
+        int qnt = getCountVendaEncerrada();
+        VendaEncerrada[] v = new VendaEncerrada[qnt];
+        
+        String sql = "SELECT * FROM vendaencerrada WHERE ordemvenda <> 0";        
+        try{
+            this.prepareStmte(sql);
+            ResultSet rs = this.stmte.executeQuery();
+            int index = 0;
+            while (rs.next())
+            {
+                VendaEncerrada venda = new VendaEncerrada();
+                venda.setOrdemVenda(rs.getInt("ordemVenda"));
+                venda.setData(rs.getTimestamp("data"));
+                venda.setIdMesa(rs.getInt("idmesa"));
+                venda.setIdProduto(rs.getInt("idproduto"));
+                venda.setPreco(rs.getDouble("preco"));
+                venda.setQuantidade(rs.getDouble("quantidade"));
+                v[index++] = venda;
+            }   
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Erro "+e.getMessage());
+        }
+        
+        return v;
     }
 }
