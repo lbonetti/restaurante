@@ -9,6 +9,7 @@ package forms;
 import beans.Mesa;
 import dao.EstruturaDadosMesa;
 import dao.MesaDAO;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -51,15 +52,29 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMesas = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
-        btnCrescente = new javax.swing.JButton();
-        btnDecrescente = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        rbtCrescente = new javax.swing.JRadioButton();
+        rbtDecrescente = new javax.swing.JRadioButton();
+        jLabel4 = new javax.swing.JLabel();
+        rbtTodos = new javax.swing.JRadioButton();
+        rbtLivres = new javax.swing.JRadioButton();
+        rbtOcupadas = new javax.swing.JRadioButton();
+        rbtDesativadas = new javax.swing.JRadioButton();
+        btnProcessar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtIdmesa = new javax.swing.JTextField();
+        btnPesquisar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Relatório de Usuários");
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setText("Relatório de Mesas");
@@ -82,17 +97,42 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblMesas);
 
-        btnCrescente.setText("Crescente");
-        btnCrescente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrescenteActionPerformed(evt);
-            }
-        });
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setText("Buscar");
 
-        btnDecrescente.setText("Decrescente");
-        btnDecrescente.addActionListener(new java.awt.event.ActionListener() {
+        jLabel3.setText("Ordenar por Número:");
+
+        buttonGroup1.add(rbtCrescente);
+        rbtCrescente.setSelected(true);
+        rbtCrescente.setText("Crescente");
+
+        buttonGroup1.add(rbtDecrescente);
+        rbtDecrescente.setText("Decrescente");
+
+        jLabel4.setText("Ordenar por status:");
+
+        buttonGroup1.add(rbtTodos);
+        rbtTodos.setText("Todos");
+
+        buttonGroup1.add(rbtLivres);
+        rbtLivres.setText("Mesas livres");
+
+        buttonGroup1.add(rbtOcupadas);
+        rbtOcupadas.setText("Mesas ocupadas");
+
+        buttonGroup1.add(rbtDesativadas);
+        rbtDesativadas.setText("Mesas desativadas");
+
+        btnProcessar.setText("Processar");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setText("Filtros");
+
+        jLabel6.setText("Informe o código:");
+
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDecrescenteActionPerformed(evt);
+                btnPesquisarActionPerformed(evt);
             }
         });
 
@@ -101,21 +141,50 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(rbtCrescente)
+                    .addComponent(rbtDecrescente))
+                .addGap(80, 80, 80)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(rbtTodos)
+                        .addGap(32, 32, 32)
+                        .addComponent(rbtOcupadas))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(rbtLivres)
+                        .addGap(4, 4, 4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(btnProcessar))
+                            .addComponent(rbtDesativadas))))
+                .addGap(25, 25, 25))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(188, 188, 188)
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(161, 161, 161)
-                        .addComponent(jLabel1)))
-                .addContainerGap(83, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(124, 124, 124)
-                .addComponent(btnCrescente)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDecrescente)
-                .addGap(181, 181, 181))
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtIdmesa, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnPesquisar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(228, 228, 228)
+                                .addComponent(jLabel5))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,30 +193,55 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCrescente)
-                    .addComponent(btnDecrescente))
-                .addContainerGap())
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6)
+                    .addComponent(txtIdmesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rbtCrescente)
+                    .addComponent(rbtTodos)
+                    .addComponent(rbtOcupadas))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rbtDecrescente)
+                    .addComponent(rbtLivres)
+                    .addComponent(rbtDesativadas))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnProcessar)
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCrescenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrescenteActionPerformed
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:
-        mesas = e.insertionSortCrescente();
-        preencheTabela();
-    }//GEN-LAST:event_btnCrescenteActionPerformed
-
-    private void btnDecrescenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecrescenteActionPerformed
-        // TODO add your handling code here:
-        mesas = e.insertionSortDecrescente();
-        preencheTabela();
-    }//GEN-LAST:event_btnDecrescenteActionPerformed
+        try{
+            int idmesa = Integer.parseInt(txtIdmesa.getText());
+            try{
+                mesas[0] = e.find(idmesa);
+                preencheTabela();
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Mesa não encontrada.");
+            }
+            
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Dados inválidos.");
+        }
+    }//GEN-LAST:event_btnPesquisarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,11 +279,24 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCrescente;
-    private javax.swing.JButton btnDecrescente;
+    private javax.swing.JButton btnPesquisar;
+    private javax.swing.JButton btnProcessar;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JRadioButton rbtCrescente;
+    private javax.swing.JRadioButton rbtDecrescente;
+    private javax.swing.JRadioButton rbtDesativadas;
+    private javax.swing.JRadioButton rbtLivres;
+    private javax.swing.JRadioButton rbtOcupadas;
+    private javax.swing.JRadioButton rbtTodos;
     private javax.swing.JTable tblMesas;
+    private javax.swing.JTextField txtIdmesa;
     // End of variables declaration//GEN-END:variables
 }
