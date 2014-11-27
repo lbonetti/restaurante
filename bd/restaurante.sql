@@ -95,14 +95,20 @@ BEGIN
   DECLARE dataX DATETIME;    
   DECLARE idmesaV INT;
   DECLARE dataV DATETIME;   
-  DECLARE busVendaEN CURSOR FOR SELECT ordemVenda, idmesa FROM `restaurante`.`vendaEncerrada` WHERE ordemVenda = (SELECT max(ordemVenda) FROM `restaurante`.`vendaEncerrada`);  
+  DECLARE busVendaEN CURSOR FOR SELECT ordemVenda, idmesa FROM `restaurante`.`vendaEncerrada` WHERE ordemVenda = (SELECT MAX(ordemVenda) FROM `restaurante`.`vendaEncerrada`);  
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET fim = 0;
   OPEN busVendaEN;
   SET idmesaV = idmesaA;
   SET dataV = dataP;
   FETCH busVendaEN INTO o, idmesaX;
-       IF fim = 0 THEN
-		  CALL ProInvendaEncerrada2(dataV, idmesaV, o, idmesaX);
-	   END IF;	   
+  SET fim = o;
+  IF fim > 0 THEN
+		  CALL ProInvendaEncerrada2(dataV, idmesaV, o, idmesaX);	   
+  ELSE
+  SET idmesaX = idmesaV;
+  SET o = 1;
+	CALL ProInvendaEncerrada2(dataV, idmesaV, o, idmesaX);
+  END IF;
   CLOSE busVendaEN;
  END
 // 
@@ -147,4 +153,4 @@ DELIMITER ;
 -- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:00', 3, 1, 2, 123);
 -- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:00', 2, 1, 4, 123);
 -- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:00', 1, 2, 2, 123);
-INSERT INTO vendaEncerrada VALUES (0, '0000-00-00 00:00:00', 0, 0, 0, 0);
+-- INSERT INTO vendaEncerrada VALUES (0, '0000-00-00 00:00:00', 0, 0, 0, 0);
