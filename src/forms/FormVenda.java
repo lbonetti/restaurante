@@ -136,8 +136,8 @@ public class FormVenda extends javax.swing.JFrame {
         } else if (op.equals("E")) {
             btnExcluir.setEnabled(true);
             double q, t;
-            q = Double.parseDouble(tabelaVenda.getValueAt(tblItens.getSelectedRow(), 3).toString().replace(",", "."));
-            t = Double.parseDouble(tabelaVenda.getValueAt(tblItens.getSelectedRow(), 4).toString().replace(",", "."));
+            q = Double.parseDouble(tabelaVenda.getValueAt(tblItens.getSelectedRow(), 3).toString().replace(".", "").replace(",", "."));
+            t = Double.parseDouble(tabelaVenda.getValueAt(tblItens.getSelectedRow(), 4).toString().replace(".", "").replace(",", "."));
             precoVenda = t / q;
             edtQuantidade.setText(Double.toString(q));
             edtCodigo.setText(Integer.toString(idproduto));
@@ -399,9 +399,13 @@ public class FormVenda extends javax.swing.JFrame {
                     tot};
                 tabelaVenda.addRow(objects);
             }
+            
+            Mesa m = new Mesa();
+            m = mesaDAO.getMesaById(v.getIdMesa());
+            m.setStatus("O");
+            mesaDAO.editar(m);
+            
         } else if (operacao.equals("E")) {
-            //Calendar c = new GregorianCalendar();
-            //mes no Calendar inicia no 0
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date d = null;
             try {
@@ -455,6 +459,7 @@ public class FormVenda extends javax.swing.JFrame {
                 edtIdMesa.selectAll();
                 return;
             }
+                        
 
             loadVendaMesa(idmesa);
 
