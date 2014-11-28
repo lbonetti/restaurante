@@ -94,6 +94,8 @@ public class FormVenda extends javax.swing.JFrame {
     }
 
     private void consultarProduto(String op) {
+        try
+        {
         DefaultTableModel tabelaVenda = (DefaultTableModel) tblItens.getModel();        
         int idproduto = 0;
         //se estiver editando, pega o codigo do jtable
@@ -148,6 +150,12 @@ public class FormVenda extends javax.swing.JFrame {
         edtQuantidade.requestFocus();
         rowSelected = tblItens.getSelectedRow();
         tblItens.setEnabled(false);
+    }   
+    catch(Exception e)
+    {
+        JOptionPane.showMessageDialog(null, "Produto não encontrado");
+        edtCodigo.setText("");
+    }
     }
 
     /**
