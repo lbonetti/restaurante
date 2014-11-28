@@ -9,99 +9,99 @@
 
 package dao;
 
-import beans.Mesa;
+import beans.Produto;
 
 /**
  *
  * @adaptador aleaguado
  */
-public class EstruturaDadosMesa {
+public class EstruturaDadosProduto {
     
-   MesaDAO mesaDAO = new MesaDAO();
-   private Mesa[] m;
+   ProdutoDAO produtoDAO = new ProdutoDAO();
+   private Produto[] p;
    private int nElems;               // controla a qty de itens no vetor
 //--------------------------------------------------------------
-   public EstruturaDadosMesa()          // Método construtor
+   public EstruturaDadosProduto()          // Método construtor
       {
-        m = mesaDAO.getMesas();                    // Instancia um novo array
-        nElems = m.length;                        // coloca no inicio a variavel nElems c/ zero elemento
+        p = produtoDAO.getProdutos();                    // Instancia um novo array
+        nElems = p.length;                        // coloca no inicio a variavel nElems c/ zero elemento
       }
 
    //--------------------------------------------------------------
    // Rotina de Ordenação pelo método de Inserção (InsertSort)
    //-----------------------------------------------------------
-       public Mesa[] insertionSortNumero()
+       public Produto[] insertionSortNumero()
       {
       int in, out;
 
       for(out=1; out<nElems; out++)     // vamos rodar até o final do vetor
          {
-         Mesa temp = m[out];            // jogamos em uma variável temporária o item marcado
+         Produto temp = p[out];            // jogamos em uma variável temporária o item marcado
          in = out;                      // inicializamos a variavel in, que ira receber o valor a esquerda
-         while(in>0 && m[in-1].getIdmesa() >= temp.getIdmesa()) // enquanto o item a esquerda for maior que o marcado ...
+         while(in>0 && p[in-1].getIdproduto() >= temp.getIdproduto()) // enquanto o item a esquerda for maior que o marcado ...
             {
-            m[in] = m[in-1];            // ...nós fazemos eles pularem uma casa a direita
+            p[in] = p[in-1];            // ...nós fazemos eles pularem uma casa a direita
             --in;                       
             }                           // ... quando o item for menor, ele nao pula!
-         m[in] = temp;                  // ...inserimos o valor marcado na posição que ficou "livre", ou seja,
+         p[in] = temp;                  // ...inserimos o valor marcado na posição que ficou "livre", ou seja,
                                         // onde estava o último item a esquerda maior que o marcado
          }  // end for
-      return m;
+      return p;
       }  // end insertionSort()
 //--------------------------------------------------------------
    //--------------------------------------------------------------
    // Rotina de Ordenação pelo método de Inserção (InsertSort)
    //-----------------------------------------------------------
-       public Mesa[] insertionSortDescricao()
+       public Produto[] insertionSortDescricao()
       {
       int in, out;
 
       for(out=1; out<nElems; out++)     // vamos rodar até o final do vetor
          {
-         Mesa temp = m[out];            // jogamos em uma variável temporária o item marcado
+         Produto temp = p[out];            // jogamos em uma variável temporária o item marcado
          in = out;                      // inicializamos a variavel in, que ira receber o valor a esquerda
-         while(in>0 && m[in-1].getDescricao().compareToIgnoreCase(temp.getDescricao()) > 0) // enquanto o item a esquerda for maior que o marcado ...
+         while(in>0 && p[in-1].getDescricao().compareToIgnoreCase(temp.getDescricao()) > 0) // enquanto o item a esquerda for maior que o marcado ...
             {
-            m[in] = m[in-1];            // ...nós fazemos eles pularem uma casa a direita
+            p[in] = p[in-1];            // ...nós fazemos eles pularem uma casa a direita
             --in;                       
             }                           // ... quando o item for menor, ele nao pula!
-         m[in] = temp;                  // ...inserimos o valor marcado na posição que ficou "livre", ou seja,
+         p[in] = temp;                  // ...inserimos o valor marcado na posição que ficou "livre", ou seja,
                                         // onde estava o último item a esquerda maior que o marcado
          }  // end for
-      return m;
+      return p;
       }  // end insertionSort()
 //--------------------------------------------------------------   
 //-----------------------------------------------------------
-       public Mesa[] insertionSortStatus()
+       public Produto[] insertionSortStatus()
       {
       int in, out;
 
       for(out=1; out<nElems; out++)     // vamos rodar até o final do vetor
          {
-         Mesa temp = m[out];            // jogamos em uma variável temporária o item marcado
+         Produto temp = p[out];            // jogamos em uma variável temporária o item marcado
          in = out;                      // inicializamos a variavel in, que ira receber o valor a esquerda
-         while(in>0 && m[in-1].getStatus().compareToIgnoreCase(temp.getStatus()) > 0) // enquanto o item a esquerda for maior que o marcado ...
+         while(in>0 && p[in-1].getPrecoVenda() > temp.getPrecoVenda()) // enquanto o item a esquerda for maior que o marcado ...
             {
-            m[in] = m[in-1];            // ...nós fazemos eles pularem uma casa a direita
+            p[in] = p[in-1];            // ...nós fazemos eles pularem uma casa a direita
             --in;                       
             }                           // ... quando o item for menor, ele nao pula!
-         m[in] = temp;                  // ...inserimos o valor marcado na posição que ficou "livre", ou seja,
+         p[in] = temp;                  // ...inserimos o valor marcado na posição que ficou "livre", ou seja,
                                         // onde estava o último item a esquerda maior que o marcado
          }  // end for
-      return m;
+      return p;
       }  // end insertionSort()
 //--------------------------------------------------------------   
 
    private void swap(int one, int two) //Simples rotina onde é efetuada a troca!!!
       {
-        Mesa temp = m[one];
-        m[one] = m[two];
-        m[two] = temp;
+        Produto temp = p[one];
+        p[one] = p[two];
+        p[two] = temp;
       }
    //--------------------------------------------------------------
 //Método de pesquisa binária ....
 //--------------------------------------------------------------
-   public Mesa find(int idmesa)
+   public Produto find(int idmesa)
       {
       int lowerBound = 0;
       int upperBound = nElems-1;
@@ -110,13 +110,13 @@ public class EstruturaDadosMesa {
       while(true)
          {
          curIn = (lowerBound + upperBound ) / 2;
-         if(m[curIn].getIdmesa()==idmesa)
-            return m[curIn];              // encontrei!
+         if(p[curIn].getIdproduto()==idmesa)
+            return p[curIn];              // encontrei!
          else if(lowerBound > upperBound)
             return null;             // não pude encontra-lo
          else                          // divide o range
             {
-            if(m[curIn].getIdmesa() < idmesa)
+            if(p[curIn].getIdproduto() < idmesa)
                lowerBound = curIn + 1; // esta na metade de cima
             else
                upperBound = curIn - 1; // esta na metade de baixo

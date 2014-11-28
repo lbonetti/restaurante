@@ -6,8 +6,8 @@
 
 package forms;
 
-import beans.Mesa;
-import dao.EstruturaDadosMesa;
+import beans.Produto;
+import dao.EstruturaDadosProduto;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,26 +15,18 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Aluno
  */
-public class FormRelatorioMesas extends javax.swing.JFrame {
-     private Mesa[] mesas;
-     EstruturaDadosMesa e = new EstruturaDadosMesa();
+public class FormRelatorioProdutos extends javax.swing.JFrame {
+     private Produto[] produtos;
+     EstruturaDadosProduto e = new EstruturaDadosProduto();
     
-    private void preencheTabela(Mesa[] m){
+    private void preencheTabela(Produto[] p){
         DefaultTableModel tabelaMesas = (DefaultTableModel) tblMesas.getModel();
         tabelaMesas.setNumRows(0);
-        for (int i=0; i<m.length;i++){
-            String status;
-            if(m[i].getStatus().equals("l"))
-                status = "Livre";
-            else
-                if(m[i].getStatus().equals("o"))
-                    status="Ocupada";
-                else
-                    status="Desativada";
+        for (int i=0; i<p.length;i++){
             Object[] obj = new Object[]{
-                m[i].getIdmesa(),
-                m[i].getDescricao(),
-                status
+                p[i].getIdproduto(),
+                p[i].getDescricao(),
+                p[i].getPrecoVenda()
              };
             tabelaMesas.addRow(obj);
         }
@@ -43,10 +35,10 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
     /**
      * Creates new form FormRelatorioUsuarios
      */
-    public FormRelatorioMesas() {
+    public FormRelatorioProdutos() {
         initComponents();
-        mesas = e.insertionSortNumero();
-        preencheTabela(mesas);
+        produtos = e.insertionSortNumero();
+        preencheTabela(produtos);
     }
 
     /**
@@ -70,7 +62,7 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
         rbtDescricao = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtIdmesa = new javax.swing.JTextField();
+        txtIdproduto = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
         btnProcessar = new javax.swing.JButton();
 
@@ -79,7 +71,7 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel1.setText("Relatório de Mesas");
+        jLabel1.setText("Relatório de Produtos");
 
         tblMesas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -109,7 +101,7 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
         rbtNumero.setText("Número");
 
         buttonGroup1.add(rbtStatus);
-        rbtStatus.setText("Status");
+        rbtStatus.setText("Preço");
 
         buttonGroup1.add(rbtDescricao);
         rbtDescricao.setText("Descrição");
@@ -149,7 +141,7 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtIdmesa, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtIdproduto, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnPesquisar)))
                         .addGap(112, 112, 112)
@@ -182,7 +174,7 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
-                        .addComponent(txtIdmesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtIdproduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -205,11 +197,11 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:
         try{
-            int idmesa = Integer.parseInt(txtIdmesa.getText());
+            int idproduto = Integer.parseInt(txtIdproduto.getText());
             try{
-                Mesa[] m = new Mesa[1];
-                m[0] = e.find(idmesa);                 
-                preencheTabela(m);
+                Produto[] p = new Produto[1];
+                p[0] = e.find(idproduto);                 
+                preencheTabela(p);
             }
             catch(Exception e){
                 JOptionPane.showMessageDialog(null, "Mesa não encontrada.");
@@ -223,13 +215,13 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
     private void btnProcessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessarActionPerformed
         // TODO add your handling code here:
         if(rbtNumero.isSelected())
-            mesas = e.insertionSortNumero();
+            produtos = e.insertionSortNumero();
         else
             if(rbtDescricao.isSelected())
-                mesas = e.insertionSortDescricao();
+                produtos = e.insertionSortDescricao();
             else
-                mesas = e.insertionSortStatus();
-        preencheTabela(mesas);
+                produtos = e.insertionSortStatus();
+        preencheTabela(produtos);
     }//GEN-LAST:event_btnProcessarActionPerformed
 
     /**
@@ -249,20 +241,20 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormRelatorioMesas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormRelatorioProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormRelatorioMesas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormRelatorioProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormRelatorioMesas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormRelatorioProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormRelatorioMesas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormRelatorioProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormRelatorioMesas().setVisible(true);
+                new FormRelatorioProdutos().setVisible(true);
             }
         });
     }
@@ -282,6 +274,6 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbtNumero;
     private javax.swing.JRadioButton rbtStatus;
     private javax.swing.JTable tblMesas;
-    private javax.swing.JTextField txtIdmesa;
+    private javax.swing.JTextField txtIdproduto;
     // End of variables declaration//GEN-END:variables
 }

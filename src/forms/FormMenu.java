@@ -191,6 +191,8 @@ public class FormMenu extends javax.swing.JFrame {
 
     private void lblRelatorioProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRelatorioProdutoMouseClicked
         // TODO add your handling code here:
+        FormRelatorioProdutos frm = new FormRelatorioProdutos();
+        frm.setVisible(true);
     }//GEN-LAST:event_lblRelatorioProdutoMouseClicked
 
     private void lblRelatorioVendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRelatorioVendasMouseClicked
