@@ -185,7 +185,7 @@ public class VendaDAO extends GenericDAO{
             while (rs.next())
             {
                 Venda venda = new Venda();
-                venda.setData(rs.getTimestamp("data"));
+                venda.setData(rs.getTimestamp("dataA"));
                 venda.setIdMesa(idMesa);
                 venda.setIdProduto(rs.getInt("idproduto"));
                 venda.setPreco(rs.getDouble("preco"));
@@ -196,7 +196,7 @@ public class VendaDAO extends GenericDAO{
             //   JOptionPane.showMessageDialog(null, "Registro não encontrado");
                 
         }
-        catch(Exception e){
+        catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Erro "+e.getMessage());
         }
         return r;
@@ -215,7 +215,7 @@ public class VendaDAO extends GenericDAO{
             {
                 VendaEncerrada venda = new VendaEncerrada();
                 venda.setOrdemVenda(rs.getInt("ordemVenda"));
-                venda.setData(rs.getTimestamp("data"));
+                venda.setData(rs.getTimestamp("dataA"));
                 venda.setIdMesa(rs.getInt("idmesa"));
                 venda.setIdProduto(rs.getInt("idproduto"));
                 venda.setPreco(rs.getDouble("preco"));
@@ -223,7 +223,7 @@ public class VendaDAO extends GenericDAO{
                 v[index++] = venda;
             }   
         }
-        catch(Exception e){
+        catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Erro "+e.getMessage());
         }
         

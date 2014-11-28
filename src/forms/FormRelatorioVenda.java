@@ -40,11 +40,11 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Cód Venda", "Data", "Produto", "Mesa"
+                "Data", "Produto", "Quantidade", "Preço", "Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -53,18 +53,21 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblRelatorio);
         if (tblRelatorio.getColumnModel().getColumnCount() > 0) {
-            tblRelatorio.getColumnModel().getColumn(0).setMinWidth(80);
-            tblRelatorio.getColumnModel().getColumn(0).setPreferredWidth(80);
-            tblRelatorio.getColumnModel().getColumn(0).setMaxWidth(80);
-            tblRelatorio.getColumnModel().getColumn(1).setMinWidth(140);
-            tblRelatorio.getColumnModel().getColumn(1).setPreferredWidth(140);
-            tblRelatorio.getColumnModel().getColumn(1).setMaxWidth(140);
-            tblRelatorio.getColumnModel().getColumn(2).setMinWidth(200);
-            tblRelatorio.getColumnModel().getColumn(2).setPreferredWidth(200);
-            tblRelatorio.getColumnModel().getColumn(2).setMaxWidth(200);
-            tblRelatorio.getColumnModel().getColumn(3).setMinWidth(200);
-            tblRelatorio.getColumnModel().getColumn(3).setPreferredWidth(200);
-            tblRelatorio.getColumnModel().getColumn(3).setMaxWidth(200);
+            tblRelatorio.getColumnModel().getColumn(0).setMinWidth(140);
+            tblRelatorio.getColumnModel().getColumn(0).setPreferredWidth(140);
+            tblRelatorio.getColumnModel().getColumn(0).setMaxWidth(140);
+            tblRelatorio.getColumnModel().getColumn(1).setMinWidth(220);
+            tblRelatorio.getColumnModel().getColumn(1).setPreferredWidth(220);
+            tblRelatorio.getColumnModel().getColumn(1).setMaxWidth(220);
+            tblRelatorio.getColumnModel().getColumn(2).setMinWidth(100);
+            tblRelatorio.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tblRelatorio.getColumnModel().getColumn(2).setMaxWidth(100);
+            tblRelatorio.getColumnModel().getColumn(3).setMinWidth(100);
+            tblRelatorio.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tblRelatorio.getColumnModel().getColumn(3).setMaxWidth(100);
+            tblRelatorio.getColumnModel().getColumn(4).setMinWidth(100);
+            tblRelatorio.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tblRelatorio.getColumnModel().getColumn(4).setMaxWidth(100);
         }
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -85,15 +88,15 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(242, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(117, Short.MAX_VALUE)
+                .addContainerGap(183, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
