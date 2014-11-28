@@ -20,15 +20,16 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
      private Mesa[] mesas;
      EstruturaDadosMesa e = new EstruturaDadosMesa();
     
-    private void preencheTabela(){
+    private void preencheTabela(Mesa[] m){
       
         DefaultTableModel tabelaMesas = (DefaultTableModel) tblMesas.getModel();
         tabelaMesas.setNumRows(0);
-        for (int i=0; i<mesas.length;i++){
+        for (int i=0; i<m.length;i++){
+            System.out.println("Passou");
             Object[] obj = new Object[]{
-                mesas[i].getIdmesa(),
-                mesas[i].getDescricao(),
-                mesas[i].getStatus()
+                m[i].getIdmesa(),
+                m[i].getDescricao(),
+                (m[i].getStatus().equals("l") ? "Livre" : "Ocupado")
             };
             tabelaMesas.addRow(obj);
         }
@@ -40,7 +41,7 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
     public FormRelatorioMesas() {
         initComponents();
         mesas = e.insertionSortCrescente();
-        preencheTabela();
+        preencheTabela(mesas);
     }
 
     /**
@@ -124,6 +125,11 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
         rbtDesativadas.setText("Mesas desativadas");
 
         btnProcessar.setText("Processar");
+        btnProcessar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProcessarActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Filtros");
@@ -230,8 +236,9 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
         try{
             int idmesa = Integer.parseInt(txtIdmesa.getText());
             try{
-                mesas[0] = e.find(idmesa);
-                preencheTabela();
+                Mesa[] m = new Mesa[1];
+                m[0] = e.find(idmesa);                 
+                preencheTabela(m);
             }
             catch(Exception e){
                 JOptionPane.showMessageDialog(null, "Mesa não encontrada.");
@@ -242,6 +249,10 @@ public class FormRelatorioMesas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Dados inválidos.");
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void btnProcessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnProcessarActionPerformed
 
     /**
      * @param args the command line arguments
