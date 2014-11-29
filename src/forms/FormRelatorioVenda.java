@@ -6,6 +6,16 @@
 
 package forms;
 
+import beans.Produto;
+import beans.Venda;
+import beans.VendaC;
+import beans.VendaEncerrada;
+import dao.ProdutoDAO;
+import dao.VendaDAO;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Anderson
@@ -15,6 +25,11 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
     /**
      * Creates new form FormRelVenda
      */
+    
+   
+    VendaDAO vendaDAO = new VendaDAO();
+    private final ProdutoDAO produtoDAO = new ProdutoDAO();
+    
     public FormRelatorioVenda() {
         initComponents();
     }
@@ -28,14 +43,20 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblRelatorio = new javax.swing.JTable();
+        tblItens = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblVendas = new javax.swing.JTable();
+        btnCarregar = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tblRelatorio.setModel(new javax.swing.table.DefaultTableModel(
+        tblItens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -51,26 +72,26 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblRelatorio);
-        if (tblRelatorio.getColumnModel().getColumnCount() > 0) {
-            tblRelatorio.getColumnModel().getColumn(0).setMinWidth(140);
-            tblRelatorio.getColumnModel().getColumn(0).setPreferredWidth(140);
-            tblRelatorio.getColumnModel().getColumn(0).setMaxWidth(140);
-            tblRelatorio.getColumnModel().getColumn(1).setMinWidth(220);
-            tblRelatorio.getColumnModel().getColumn(1).setPreferredWidth(220);
-            tblRelatorio.getColumnModel().getColumn(1).setMaxWidth(220);
-            tblRelatorio.getColumnModel().getColumn(2).setMinWidth(100);
-            tblRelatorio.getColumnModel().getColumn(2).setPreferredWidth(100);
-            tblRelatorio.getColumnModel().getColumn(2).setMaxWidth(100);
-            tblRelatorio.getColumnModel().getColumn(3).setMinWidth(100);
-            tblRelatorio.getColumnModel().getColumn(3).setPreferredWidth(100);
-            tblRelatorio.getColumnModel().getColumn(3).setMaxWidth(100);
-            tblRelatorio.getColumnModel().getColumn(4).setMinWidth(100);
-            tblRelatorio.getColumnModel().getColumn(4).setPreferredWidth(100);
-            tblRelatorio.getColumnModel().getColumn(4).setMaxWidth(100);
+        jScrollPane1.setViewportView(tblItens);
+        if (tblItens.getColumnModel().getColumnCount() > 0) {
+            tblItens.getColumnModel().getColumn(0).setMinWidth(140);
+            tblItens.getColumnModel().getColumn(0).setPreferredWidth(140);
+            tblItens.getColumnModel().getColumn(0).setMaxWidth(140);
+            tblItens.getColumnModel().getColumn(1).setMinWidth(220);
+            tblItens.getColumnModel().getColumn(1).setPreferredWidth(220);
+            tblItens.getColumnModel().getColumn(1).setMaxWidth(220);
+            tblItens.getColumnModel().getColumn(2).setMinWidth(100);
+            tblItens.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tblItens.getColumnModel().getColumn(2).setMaxWidth(100);
+            tblItens.getColumnModel().getColumn(3).setMinWidth(100);
+            tblItens.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tblItens.getColumnModel().getColumn(3).setMaxWidth(100);
+            tblItens.getColumnModel().getColumn(4).setMinWidth(100);
+            tblItens.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tblItens.getColumnModel().getColumn(4).setMaxWidth(100);
         }
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblVendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -78,7 +99,54 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
                 "Ordem Venda", "Mesa", "Total"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        tblVendas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblVendasMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblVendas);
+
+        btnCarregar.setText("Buscar Vendas");
+        btnCarregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarregarActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel1.setText("Ordem:");
+
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setSelected(true);
+        jRadioButton1.setText("Ordem Venda");
+
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setText("Mesa");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButton2)
+                    .addComponent(jRadioButton1)
+                    .addComponent(jLabel1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRadioButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRadioButton2)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,21 +156,79 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(242, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCarregar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(183, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCarregar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarActionPerformed
+        
+        ArrayList<VendaC> VendaCab = vendaDAO.getVendasCab();        
+        DefaultTableModel tabelaVenda = (DefaultTableModel) tblVendas.getModel();
+        tabelaVenda.setRowCount(0);
+        
+        for (VendaC v : VendaCab) {
+            if (v != null) {      
+                Object[] objects = new Object[]{
+                    v.getOrdemVenda(),
+                    v.getIdmesa(),
+                    v.getTotal()};
+                tabelaVenda.addRow(objects);
+            }
+        }
+        
+        
+    }//GEN-LAST:event_btnCarregarActionPerformed
+
+    private void tblVendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVendasMouseClicked
+        DefaultTableModel tabelaVenda = (DefaultTableModel) tblVendas.getModel();
+        DefaultTableModel tabelaItens = (DefaultTableModel) tblItens.getModel();
+        tabelaItens.setRowCount(0);
+        int ordemVenda = Integer.parseInt(tabelaVenda.getValueAt(tblVendas.getSelectedRow(), 0).toString());
+        ArrayList<VendaEncerrada> venda = vendaDAO.getVendasItens(ordemVenda);
+
+        for (VendaEncerrada v : venda) {
+            if (v != null) {     
+                
+                DecimalFormat df = new DecimalFormat("#,###.00");
+                String qtd = df.format(v.getQuantidade());
+                String pre = df.format(v.getPreco());
+                String tot;
+                tot = df.format(v.getQuantidade() * v.getPreco());
+                
+                Produto p = new Produto();
+                p = produtoDAO.getProdutoById(v.getIdProduto());
+                
+                Object[] objects = new Object[]{
+                    v.getData(),
+                    p.getDescricao(),
+                    qtd,
+                    pre,
+                    tot
+                };
+                tabelaItens.addRow(objects);
+            }
+        }
+    }//GEN-LAST:event_tblVendasMouseClicked
 
     /**
      * @param args the command line arguments
@@ -140,9 +266,15 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCarregar;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable tblRelatorio;
+    private javax.swing.JTable tblItens;
+    private javax.swing.JTable tblVendas;
     // End of variables declaration//GEN-END:variables
 }
