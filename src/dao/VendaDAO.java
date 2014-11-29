@@ -96,7 +96,20 @@ public class VendaDAO extends GenericDAO {
             JOptionPane.showMessageDialog(null, "Erro " + e.getMessage());
             return false;
         }
-    } /**/
+    }
+    
+    public boolean encerrarVenda() {
+        String sql = "DELETE FROM vendaandamento";
+        try {
+            this.prepareStmte(sql);
+            this.stmte.execute();
+            return true;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro " + e.getMessage());
+            return false;
+        }
+    }
+    /**/
 
     /*
      public boolean excluir(Venda Venda){
