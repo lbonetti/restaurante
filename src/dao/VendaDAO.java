@@ -193,14 +193,14 @@ public class VendaDAO extends GenericDAO {
         return r;
     }
 
-    public ArrayList<VendaC> getVendasCab() {
+    public ArrayList<VendaC> getVendasCab(String ordem) {
 
         ArrayList<VendaC> v = new ArrayList<>();
 
-        String sql = "SELECT v.ordemVenda, v.idmesa, round(v.preco * v.quantidade,2) as Total FROM vendaencerrada v group by 1,2 \n" +
-                     "order by ordemVenda, idmesa";
+        String sql = "SELECT v.ordemVenda, v.idmesa, sum(round(v.preco * v.quantidade,2)) as Total FROM vendaencerrada v group by 1,2 \n" +
+                     "order by "+ordem;
         try {
-            this.prepareStmte(sql);
+            this.prepareStmte(sql);            
             ResultSet rs = this.stmte.executeQuery();
             int index = 0;
             while (rs.next()) {

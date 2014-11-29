@@ -12,8 +12,10 @@ import beans.VendaC;
 import beans.VendaEncerrada;
 import dao.ProdutoDAO;
 import dao.VendaDAO;
+import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,6 +31,16 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
    
     VendaDAO vendaDAO = new VendaDAO();
     private final ProdutoDAO produtoDAO = new ProdutoDAO();
+    private int Linha;
+
+    public int getLinha() {
+        return Linha;
+    }
+
+    public void setLinha(int Linha) {
+        this.Linha = Linha;
+        updateItensVenda();
+    }       
     
     public FormRelatorioVenda() {
         initComponents();
@@ -51,10 +63,11 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
         btnCarregar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        rbtOrdemVenda = new javax.swing.JRadioButton();
+        rbtOrdemMesa = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         tblItens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -98,10 +111,24 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
             new String [] {
                 "Ordem Venda", "Mesa", "Total"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblVendas.getTableHeader().setReorderingAllowed(false);
         tblVendas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblVendasMouseClicked(evt);
+            }
+        });
+        tblVendas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblVendasKeyReleased(evt);
             }
         });
         jScrollPane2.setViewportView(tblVendas);
@@ -117,12 +144,12 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
 
         jLabel1.setText("Ordem:");
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("Ordem Venda");
+        buttonGroup1.add(rbtOrdemVenda);
+        rbtOrdemVenda.setSelected(true);
+        rbtOrdemVenda.setText("Ordem Venda");
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Mesa");
+        buttonGroup1.add(rbtOrdemMesa);
+        rbtOrdemMesa.setText("Mesa");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -131,8 +158,8 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton1)
+                    .addComponent(rbtOrdemMesa)
+                    .addComponent(rbtOrdemVenda)
                     .addComponent(jLabel1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -142,9 +169,9 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton1)
+                .addComponent(rbtOrdemVenda)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton2)
+                .addComponent(rbtOrdemMesa)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -178,32 +205,14 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarActionPerformed
-        
-        ArrayList<VendaC> VendaCab = vendaDAO.getVendasCab();        
-        DefaultTableModel tabelaVenda = (DefaultTableModel) tblVendas.getModel();
-        tabelaVenda.setRowCount(0);
-        
-        for (VendaC v : VendaCab) {
-            if (v != null) {      
-                Object[] objects = new Object[]{
-                    v.getOrdemVenda(),
-                    v.getIdmesa(),
-                    v.getTotal()};
-                tabelaVenda.addRow(objects);
-            }
-        }
-        
-        
-    }//GEN-LAST:event_btnCarregarActionPerformed
-
-    private void tblVendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVendasMouseClicked
+    private void updateItensVenda(){
         DefaultTableModel tabelaVenda = (DefaultTableModel) tblVendas.getModel();
         DefaultTableModel tabelaItens = (DefaultTableModel) tblItens.getModel();
         tabelaItens.setRowCount(0);
-        int ordemVenda = Integer.parseInt(tabelaVenda.getValueAt(tblVendas.getSelectedRow(), 0).toString());
+        int ordemVenda = Integer.parseInt(tabelaVenda.getValueAt(getLinha(), 0).toString());
         ArrayList<VendaEncerrada> venda = vendaDAO.getVendasItens(ordemVenda);
 
         for (VendaEncerrada v : venda) {
@@ -228,7 +237,38 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
                 tabelaItens.addRow(objects);
             }
         }
+    }
+    
+    private void btnCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarActionPerformed
+        String ordem;
+        if (rbtOrdemVenda.isSelected())
+            ordem = "ordemVenda";
+        else
+            ordem = "idmesa";
+                   
+        ArrayList<VendaC> VendaCab = vendaDAO.getVendasCab(ordem);        
+        DefaultTableModel tabelaVenda = (DefaultTableModel) tblVendas.getModel();
+        tabelaVenda.setRowCount(0);
+        DecimalFormat df = new DecimalFormat("#,###.00");
+        for (VendaC v : VendaCab) {
+            if (v != null) {      
+                Object[] objects = new Object[]{
+                    v.getOrdemVenda(),
+                    v.getIdmesa(),
+                    df.format(v.getTotal())};
+                tabelaVenda.addRow(objects);
+            }
+        }        
+    }//GEN-LAST:event_btnCarregarActionPerformed
+
+    private void tblVendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVendasMouseClicked
+        setLinha(tblVendas.getSelectedRow());
     }//GEN-LAST:event_tblVendasMouseClicked
+
+    private void tblVendasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblVendasKeyReleased
+        if ((evt.getKeyCode() == KeyEvent.VK_DOWN) || (evt.getKeyCode() == KeyEvent.VK_UP))
+            setLinha(tblVendas.getSelectedRow());
+    }//GEN-LAST:event_tblVendasKeyReleased
 
     /**
      * @param args the command line arguments
@@ -270,10 +310,10 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JRadioButton rbtOrdemMesa;
+    private javax.swing.JRadioButton rbtOrdemVenda;
     private javax.swing.JTable tblItens;
     private javax.swing.JTable tblVendas;
     // End of variables declaration//GEN-END:variables
