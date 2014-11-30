@@ -28,178 +28,137 @@ public class FormMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel4 = new javax.swing.JLabel();
+        jSeparator4 = new javax.swing.JSeparator();
+        jLabel5 = new javax.swing.JLabel();
+        btnCadMesa = new javax.swing.JButton();
+        btnCadProduto = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
-        lblCadastroMesa = new javax.swing.JLabel();
-        lblCadastroProduto = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        btnVenda = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
-        jLabel2 = new javax.swing.JLabel();
-        lblCadastroMesa1 = new javax.swing.JLabel();
-        jSeparator3 = new javax.swing.JSeparator();
-        jLabel3 = new javax.swing.JLabel();
-        lblRelatorioMesa = new javax.swing.JLabel();
-        lblRelatorioProduto = new javax.swing.JLabel();
-        lblRelatorioVendas = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        btnRelMesa = new javax.swing.JButton();
+        btnRelProduto = new javax.swing.JButton();
+        btnRelVenda = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de gerenciamento de restaurante");
         setResizable(false);
 
+        jLabel4.setText("Projeto Interdisciplinar");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel5.setText("Cadastros");
+
+        btnCadMesa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/1417406206_table.png"))); // NOI18N
+        btnCadMesa.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        btnCadProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/1417406672_bunch_ingredients.png"))); // NOI18N
+        btnCadProduto.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setText("Cadastros");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel6.setText("Operação");
 
-        lblCadastroMesa.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblCadastroMesa.setForeground(new java.awt.Color(51, 51, 255));
-        lblCadastroMesa.setText("Cadastro de mesas");
-        lblCadastroMesa.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCadastroMesaMouseClicked(evt);
-            }
-        });
+        btnVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/1417406979_money-3-64.png"))); // NOI18N
+        btnVenda.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        lblCadastroProduto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblCadastroProduto.setForeground(new java.awt.Color(51, 51, 255));
-        lblCadastroProduto.setText("Cadastro de produtos");
-        lblCadastroProduto.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCadastroProdutoMouseClicked(evt);
-            }
-        });
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel2.setText("Relatórios");
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel7.setText("Relatórios");
 
-        lblCadastroMesa1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblCadastroMesa1.setForeground(new java.awt.Color(51, 51, 255));
-        lblCadastroMesa1.setText("Controle de Vendas");
-        lblCadastroMesa1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCadastroMesa1MouseClicked(evt);
-            }
-        });
+        btnRelMesa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/1417407759_698669-icon-62-document-table-64.png"))); // NOI18N
+        btnRelMesa.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel3.setText("Operação");
+        btnRelProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/1417407855_list_ingredients.png"))); // NOI18N
+        btnRelProduto.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        lblRelatorioMesa.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblRelatorioMesa.setForeground(new java.awt.Color(51, 51, 255));
-        lblRelatorioMesa.setText("Relatório de mesas");
-        lblRelatorioMesa.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblRelatorioMesaMouseClicked(evt);
-            }
-        });
-
-        lblRelatorioProduto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblRelatorioProduto.setForeground(new java.awt.Color(51, 51, 255));
-        lblRelatorioProduto.setText("Relatório de produtos");
-        lblRelatorioProduto.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblRelatorioProdutoMouseClicked(evt);
-            }
-        });
-
-        lblRelatorioVendas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblRelatorioVendas.setForeground(new java.awt.Color(51, 51, 255));
-        lblRelatorioVendas.setText("Relatório de vendas");
-        lblRelatorioVendas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblRelatorioVendasMouseClicked(evt);
-            }
-        });
+        btnRelVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/1417408463_chart-128.png"))); // NOI18N
+        btnRelVenda.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addGap(141, 141, 141))
+            .addComponent(jSeparator4)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(lblCadastroMesa)
-                            .addComponent(lblCadastroProduto)
-                            .addComponent(lblCadastroMesa1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(lblRelatorioMesa)
-                            .addComponent(lblRelatorioProduto)
-                            .addComponent(lblRelatorioVendas)))
-                    .addComponent(jSeparator2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(394, Short.MAX_VALUE))
+                        .addComponent(btnCadMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCadProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(jLabel5)))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnRelMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRelProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRelVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(lblCadastroMesa)
-                .addGap(4, 4, 4)
-                .addComponent(lblCadastroProduto)
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblCadastroMesa1)
-                .addGap(25, 25, 25)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblRelatorioMesa)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblRelatorioProduto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblRelatorioVendas)
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnCadMesa)
+                                            .addComponent(btnCadProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(26, 26, 26)
+                                        .addComponent(jLabel5))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(jLabel6)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnRelMesa)
+                                    .addComponent(btnRelProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnRelVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel7)
+                                .addGap(26, 26, 26)))
+                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(58, 58, 58))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, Short.MAX_VALUE)))
+                .addComponent(jLabel4)
+                .addContainerGap(167, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void lblCadastroMesaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastroMesaMouseClicked
-        // TODO add your handling code here:
-        FormMesa frm = new FormMesa();
-        frm.setVisible(true);
-    }//GEN-LAST:event_lblCadastroMesaMouseClicked
-
-    private void lblCadastroProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastroProdutoMouseClicked
-        // TODO add your handling code here:
-        FormProduto frm = new FormProduto();
-        frm.setVisible(true);
-    }//GEN-LAST:event_lblCadastroProdutoMouseClicked
-
-    private void lblCadastroMesa1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastroMesa1MouseClicked
-        // TODO add your handling code here:
-        FormVenda frm = new FormVenda();
-        frm.setVisible(true);
-    }//GEN-LAST:event_lblCadastroMesa1MouseClicked
-
-    private void lblRelatorioMesaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRelatorioMesaMouseClicked
-        FormRelatorioMesas frm = new FormRelatorioMesas();
-        frm.setVisible(true);
-    }//GEN-LAST:event_lblRelatorioMesaMouseClicked
-
-    private void lblRelatorioProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRelatorioProdutoMouseClicked
-        // TODO add your handling code here:
-        FormRelatorioProdutos frm = new FormRelatorioProdutos();
-        frm.setVisible(true);
-    }//GEN-LAST:event_lblRelatorioProdutoMouseClicked
-
-    private void lblRelatorioVendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRelatorioVendasMouseClicked
-        FormRelatorioVenda frm = new FormRelatorioVenda();
-        frm.setVisible(true);
-    }//GEN-LAST:event_lblRelatorioVendasMouseClicked
 
     /**
      * @param args the command line arguments
@@ -237,17 +196,18 @@ public class FormMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton btnCadMesa;
+    private javax.swing.JButton btnCadProduto;
+    private javax.swing.JButton btnRelMesa;
+    private javax.swing.JButton btnRelProduto;
+    private javax.swing.JButton btnRelVenda;
+    private javax.swing.JButton btnVenda;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JLabel lblCadastroMesa;
-    private javax.swing.JLabel lblCadastroMesa1;
-    private javax.swing.JLabel lblCadastroProduto;
-    private javax.swing.JLabel lblRelatorioMesa;
-    private javax.swing.JLabel lblRelatorioProduto;
-    private javax.swing.JLabel lblRelatorioVendas;
+    private javax.swing.JSeparator jSeparator4;
     // End of variables declaration//GEN-END:variables
 }
