@@ -189,6 +189,7 @@ public class FormVenda extends javax.swing.JFrame {
         btnEncerrarVenda = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Controle de Vendas");
         setResizable(false);
 
         jLabel1.setText("Mesa.:");

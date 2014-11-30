@@ -67,6 +67,7 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
         rbtOrdemMesa = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Relatório de vendas");
         setResizable(false);
 
         tblItens.setModel(new javax.swing.table.DefaultTableModel(

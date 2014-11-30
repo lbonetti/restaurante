@@ -43,6 +43,7 @@ public class FormMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de gerenciamento de restaurante");
+        setResizable(false);
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -72,7 +73,7 @@ public class FormMenu extends javax.swing.JFrame {
 
         lblCadastroMesa1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblCadastroMesa1.setForeground(new java.awt.Color(51, 51, 255));
-        lblCadastroMesa1.setText("Operar caixa");
+        lblCadastroMesa1.setText("Controle de Vendas");
         lblCadastroMesa1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblCadastroMesa1MouseClicked(evt);

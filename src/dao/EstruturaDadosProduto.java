@@ -30,7 +30,7 @@ public class EstruturaDadosProduto {
    //--------------------------------------------------------------
    // Rotina de Ordenação pelo método de Inserção (InsertSort)
    //-----------------------------------------------------------
-       public Produto[] insertionSortNumero()
+       public Produto[] insertionSortCodigo()
       {
       int in, out;
 
@@ -72,7 +72,7 @@ public class EstruturaDadosProduto {
       }  // end insertionSort()
 //--------------------------------------------------------------   
 //-----------------------------------------------------------
-       public Produto[] insertionSortStatus()
+       public Produto[] insertionSortPreco()
       {
       int in, out;
 
