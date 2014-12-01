@@ -66,7 +66,7 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
         rbtOrdemVenda = new javax.swing.JRadioButton();
         rbtOrdemMesa = new javax.swing.JRadioButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Relatório de vendas");
         setResizable(false);
 

@@ -21,12 +21,17 @@ public class MesaDAO extends GenericDAO {
     }
     
     public boolean inserir(Mesa mesa){
-        String sql = "INSERT INTO mesa(idmesa, status) VALUES (?, ?)";
+        String sql = "INSERT INTO mesa(idmesa, descricao, status) VALUES (?, ?, ?)";
         try{
             this.prepareStmte(sql);
+            this.stmte.addBatch("LOCK TABLE mesa WRITE;");
             this.stmte.setInt(1, mesa.getIdmesa());
-            this.stmte.setString(2, "l");
-            this.stmte.execute();
+            this.stmte.setString(2, "");
+            this.stmte.setString(3, "l");
+            this.stmte.addBatch();
+            this.stmte.addBatch("UNLOCK TABLES;");
+            this.stmte.executeBatch();
+
             return true;
         }
         catch(Exception e){
@@ -38,10 +43,13 @@ public class MesaDAO extends GenericDAO {
         String sql = "UPDATE mesa SET descricao = ?, status=? WHERE idmesa = ?";
         try{
             this.prepareStmte(sql);
+            this.stmte.addBatch("LOCK TABLE mesa WRITE;");
             this.stmte.setString(1, m.getDescricao());
             this.stmte.setString(2, m.getStatus());
             this.stmte.setInt(3, m.getIdmesa());
-            this.stmte.executeUpdate();
+            this.stmte.addBatch();
+            this.stmte.addBatch("UNLOCK TABLES;");
+            this.stmte.executeBatch();
             return true;
         }
         catch(Exception e){

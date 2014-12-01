@@ -23,11 +23,16 @@ public class ProdutoDAO extends GenericDAO{
     }
     
     public boolean inserir(Produto produto){
-        String sql = "INSERT INTO produto(idproduto) VALUES (?)";
+        String sql = "INSERT INTO produto(idproduto, descricao, precoVenda) VALUES (?, ?, ?)";
         try{
             this.prepareStmte(sql);
+            this.stmte.addBatch("LOCK TABLE produto WRITE;");
             this.stmte.setInt(1, produto.getIdproduto());
-            this.stmte.execute();
+            this.stmte.setString(2, "");
+            this.stmte.setDouble(3, 0);
+            this.stmte.addBatch();
+            this.stmte.addBatch("UNLOCK TABLES;");
+            this.stmte.executeBatch();
             return true;
         }
         catch(Exception e){
@@ -39,10 +44,13 @@ public class ProdutoDAO extends GenericDAO{
         String sql = "UPDATE produto SET descricao = ?, precoVenda=? WHERE idproduto = ?";
         try{
             this.prepareStmte(sql);
+            this.stmte.addBatch("LOCK TABLE produto WRITE;");
             this.stmte.setString(1, produto.getDescricao());
             this.stmte.setDouble(2, produto.getPrecoVenda());
             this.stmte.setInt(3, produto.getIdproduto());
-            this.stmte.execute();
+            this.stmte.addBatch();
+            this.stmte.addBatch("UNLOCK TABLES;");
+            this.stmte.executeBatch();
             return true;
         }
         catch(Exception e){

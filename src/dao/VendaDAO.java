@@ -31,6 +31,7 @@ public class VendaDAO extends GenericDAO {
         String sql = "INSERT INTO vendaandamento(dataA, idproduto, idmesa, quantidade, preco) VALUES (?, ?, ?, ?, ?)";
         try {
             this.prepareStmte(sql);
+            this.stmte.addBatch("LOCK TABLE vendaandamento WRITE;");
 
             Calendar c = new GregorianCalendar();
             c.setTime(venda.getData());
@@ -42,8 +43,9 @@ public class VendaDAO extends GenericDAO {
             this.stmte.setInt(3, venda.getIdMesa());
             this.stmte.setDouble(4, venda.getQuantidade());
             this.stmte.setDouble(5, venda.getPreco());
-
-            this.stmte.execute();
+            this.stmte.addBatch();
+            this.stmte.addBatch("UNLOCK TABLES;");
+            this.stmte.executeBatch();
             return true;
         } catch (Exception e) {
             return false;
@@ -54,6 +56,7 @@ public class VendaDAO extends GenericDAO {
         String sql = "UPDATE vendaandamento SET quantidade = ?, preco=? WHERE dataA = ? and idproduto = ? and idmesa = ?";
         try {
             this.prepareStmte(sql);
+            this.stmte.addBatch("LOCK TABLE vendaandamento WRITE;");
             this.stmte.setDouble(1, venda.getQuantidade());
             this.stmte.setDouble(2, venda.getPreco());
 
@@ -67,8 +70,9 @@ public class VendaDAO extends GenericDAO {
 
             this.stmte.setInt(4, venda.getIdProduto());
             this.stmte.setInt(5, venda.getIdMesa());
-
-            this.stmte.execute();
+            this.stmte.addBatch();
+            this.stmte.addBatch("UNLOCK TABLES;");
+            this.stmte.executeBatch();
             return true;
         } catch (Exception e) {
             return false;
@@ -80,6 +84,7 @@ public class VendaDAO extends GenericDAO {
         String sql = "DELETE FROM vendaandamento WHERE dataA = ? and idproduto = ? and idmesa = ?";
         try {
             this.prepareStmte(sql);
+            this.stmte.addBatch("LOCK TABLE vendaandamento WRITE;");
             Calendar c = new GregorianCalendar();
             c.setTime(venda.getData());
             //nao encontrei outro jeito de remover os milliseconds
@@ -89,8 +94,9 @@ public class VendaDAO extends GenericDAO {
             this.stmte.setTimestamp(1, t);
             this.stmte.setInt(2, venda.getIdProduto());
             this.stmte.setInt(3, venda.getIdMesa());
-
-            this.stmte.execute();
+            this.stmte.addBatch();
+            this.stmte.addBatch("UNLOCK TABLES");
+            this.stmte.executeBatch();
             return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro " + e.getMessage());
@@ -101,8 +107,11 @@ public class VendaDAO extends GenericDAO {
     public boolean encerrarVenda() {
         String sql = "DELETE FROM vendaandamento";
         try {
+            this.stmte.addBatch("LOCK TABLE vendaandamento WRITE;");
             this.prepareStmte(sql);
-            this.stmte.execute();
+            this.stmte.addBatch();
+            this.stmte.addBatch("UNLOCK TABLES");
+            this.stmte.executeBatch();
             return true;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro " + e.getMessage());
