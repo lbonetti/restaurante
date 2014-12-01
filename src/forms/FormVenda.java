@@ -389,13 +389,13 @@ public class FormVenda extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addComponent(jLabel1))
-                    .addComponent(edtIdMesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCarregar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDescMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(edtIdMesa)
+                    .addComponent(lblDescMesa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCarregar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -432,6 +432,14 @@ public class FormVenda extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        if (edtQuantidade.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Digite a quantidade");
+            edtQuantidade.requestFocus();
+            return;
+        }
+        
+        
         Venda v = new Venda();
         Produto p = new Produto();
         DefaultTableModel tabelaVenda = (DefaultTableModel) tblItens.getModel();
@@ -462,7 +470,7 @@ public class FormVenda extends javax.swing.JFrame {
 
             Mesa m = new Mesa();
             m = mesaDAO.getMesaById(v.getIdMesa());
-            m.setStatus("O");
+            m.setStatus("o");
             mesaDAO.editar(m);
 
         } else if (operacao.equals("E")) {
@@ -554,7 +562,14 @@ public class FormVenda extends javax.swing.JFrame {
 
     private void btnCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarActionPerformed
        
+        if (edtIdMesa.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Digite o numero da mesa");
+            edtIdMesa.requestFocus();
+            return;
+        }
         int idmesa = Integer.parseInt(edtIdMesa.getText());
+        
         mesa = mesaDAO.getMesaById(idmesa);
         if (mesa.getIdmesa() == 0) {
             JOptionPane.showMessageDialog(null, "Mesa não encontrada");
@@ -580,6 +595,10 @@ public class FormVenda extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCarregarActionPerformed
 
     private void btnEncerrarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEncerrarVendaActionPerformed
+        int idmesa = Integer.parseInt(edtIdMesa.getText());
+        mesa = mesaDAO.getMesaById(idmesa);
+        mesa.setStatus("l");
+        mesaDAO.editar(mesa);
         vendaDAO.encerrarVenda();
         edtIdMesa.requestFocus();
     }//GEN-LAST:event_btnEncerrarVendaActionPerformed

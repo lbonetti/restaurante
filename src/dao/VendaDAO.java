@@ -47,7 +47,7 @@ public class VendaDAO extends GenericDAO {
             this.stmte.addBatch("UNLOCK TABLES;");
             this.stmte.executeBatch();
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             return false;
         }
     }
@@ -74,7 +74,7 @@ public class VendaDAO extends GenericDAO {
             this.stmte.addBatch("UNLOCK TABLES;");
             this.stmte.executeBatch();
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             return false;
         }
     } /**/
@@ -98,7 +98,7 @@ public class VendaDAO extends GenericDAO {
             this.stmte.addBatch("UNLOCK TABLES");
             this.stmte.executeBatch();
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro " + e.getMessage());
             return false;
         }
@@ -118,29 +118,7 @@ public class VendaDAO extends GenericDAO {
             return false;
         }
     }
-    /**/
 
-    /*
-     public boolean excluir(Venda Venda){
-     String sql = "DELETE FROM Venda WHERE idVenda = ?";
-     try{
-     this.prepareStmte(sql);
-     this.stmte.setInt(1, Venda.getIdVenda());
-     this.stmte.execute();
-     return true;
-     }
-     catch(Exception e){
-     return false;
-     }
-     }*/
-
-    /**
-     *
-     * @param data
-     * @param idProduto
-     * @param idMesa
-     * @return
-     */
     public Venda getVendaByIds(Date data, int idProduto, int idMesa) {
         Venda venda = new Venda();
         String sql = "SELECT * FROM vendaandamento WHERE dataA = ? and idproduto = ? and idmesa = ?";
@@ -206,8 +184,6 @@ public class VendaDAO extends GenericDAO {
                 venda.setQuantidade(rs.getDouble("quantidade"));
                 r.add(venda);
             }
-            //
-            //   JOptionPane.showMessageDialog(null, "Registro não encontrado");
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro " + e.getMessage());
@@ -215,14 +191,18 @@ public class VendaDAO extends GenericDAO {
         return r;
     }
 
-    public ArrayList<VendaC> getVendasCab(String ordem) {
+    public ArrayList<VendaC> getVendasCab(String ordem, int OrdemInicial, int OrdemFinal) {
 
         ArrayList<VendaC> v = new ArrayList<>();
 
-        String sql = "SELECT v.ordemVenda, v.idmesa, sum(round(v.preco * v.quantidade,2)) as Total FROM vendaencerrada v group by 1,2 \n" +
-                     "order by "+ordem;
+        String sql = "SELECT v.ordemVenda, v.idmesa, sum(round(v.preco * v.quantidade,2)) as Total FROM vendaencerrada v\n" +
+                        "where v.ordemVenda between ? and ?\n" +
+                        "group by 1,2 order by "+ordem;
         try {
             this.prepareStmte(sql);            
+            this.stmte.setInt(1, OrdemInicial);
+            this.stmte.setInt(2, OrdemFinal);
+            
             ResultSet rs = this.stmte.executeQuery();
             int index = 0;
             while (rs.next()) {
