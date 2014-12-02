@@ -88,10 +88,11 @@ public class FormVenda extends javax.swing.JFrame {
             edtCodigo.requestFocus();
             edtCodigo.setText("");
             tblItens.setEnabled(true);
-            if (tblItens.getRowCount() > 0)
+            if (tblItens.getRowCount() > 0) {
                 btnEncerrarVenda.setEnabled(true);
-            else
+            } else {
                 btnEncerrarVenda.setEnabled(false);
+            }
         }
 
         if (Nivel == 2) {
@@ -432,14 +433,12 @@ public class FormVenda extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        if (edtQuantidade.getText().equals(""))
-        {
+        if (edtQuantidade.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Digite a quantidade");
             edtQuantidade.requestFocus();
             return;
         }
-        
-        
+
         Venda v = new Venda();
         Produto p = new Produto();
         DefaultTableModel tabelaVenda = (DefaultTableModel) tblItens.getModel();
@@ -534,6 +533,12 @@ public class FormVenda extends javax.swing.JFrame {
         if (vendaDAO.excluir(v)) {
             JOptionPane.showMessageDialog(null, "Excluido com sucesso");
             tabelaVenda.removeRow(rowSelected);
+            if (tabelaVenda.getRowCount() == 0) {
+                int idmesa = Integer.parseInt(edtIdMesa.getText());
+                mesa = mesaDAO.getMesaById(idmesa);
+                mesa.setStatus("l");
+                mesaDAO.editar(mesa);
+            }
             cancelar(1);
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
@@ -561,15 +566,14 @@ public class FormVenda extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarActionPerformed
-       
-        if (edtIdMesa.getText().equals(""))
-        {
+
+        if (edtIdMesa.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Digite o numero da mesa");
             edtIdMesa.requestFocus();
             return;
         }
         int idmesa = Integer.parseInt(edtIdMesa.getText());
-        
+
         mesa = mesaDAO.getMesaById(idmesa);
         if (mesa.getIdmesa() == 0) {
             JOptionPane.showMessageDialog(null, "Mesa não encontrada");
@@ -599,7 +603,7 @@ public class FormVenda extends javax.swing.JFrame {
         mesa = mesaDAO.getMesaById(idmesa);
         mesa.setStatus("l");
         mesaDAO.editar(mesa);
-        vendaDAO.encerrarVenda();
+        vendaDAO.encerrarVenda(idmesa);
         edtIdMesa.requestFocus();
     }//GEN-LAST:event_btnEncerrarVendaActionPerformed
 

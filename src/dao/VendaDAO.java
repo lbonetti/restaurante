@@ -104,11 +104,12 @@ public class VendaDAO extends GenericDAO {
         }
     }
     
-    public boolean encerrarVenda() {
-        String sql = "DELETE FROM vendaandamento";
+    public boolean encerrarVenda(int idmesa) {
+        String sql = "DELETE FROM vendaandamento WHERE idmesa=?";
         try {
             this.stmte.addBatch("LOCK TABLE vendaandamento WRITE;");
             this.prepareStmte(sql);
+            this.stmte.setInt(1, idmesa);
             this.stmte.addBatch();
             this.stmte.addBatch("UNLOCK TABLES");
             this.stmte.executeBatch();
