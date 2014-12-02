@@ -41,6 +41,7 @@ public class FormVenda extends javax.swing.JFrame {
     private final ProdutoDAO produtoDAO = new ProdutoDAO();
     private String operacao = "";
     private int rowSelected = 0;
+    private Date DataB = null;
 
     public FormVenda() {
         initComponents();
@@ -56,6 +57,10 @@ public class FormVenda extends javax.swing.JFrame {
 
         for (Venda v : vendaMesa) {
             if (v != null) {
+                if (DataB == null)
+                {
+                    DataB = v.getDatab();
+                }
                 p = produtoDAO.getProdutoById(v.getIdProduto());
                 DecimalFormat df = new DecimalFormat("#,###.00");
                 String qtd = df.format(v.getQuantidade());
@@ -447,8 +452,10 @@ public class FormVenda extends javax.swing.JFrame {
         if (operacao.equals("I")) {
             Calendar c = new GregorianCalendar();
             //mes no Calendar inicia no 0
-            c.setTime(new Date());
+            c.setTime(new Date());            
             v.setData(c.getTime());
+            c.setTime(DataB);
+            v.setDatab(c.getTime());
             v.setIdMesa(Integer.parseInt(edtIdMesa.getText()));
             v.setIdProduto(Integer.parseInt(edtCodigo.getText()));
             v.setPreco(Double.parseDouble(edtPreco.getText()));
@@ -546,6 +553,7 @@ public class FormVenda extends javax.swing.JFrame {
     private void edtIdMesaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_edtIdMesaFocusGained
         DefaultTableModel model = (DefaultTableModel) tblItens.getModel();
         model.setRowCount(0);
+        DataB = null;
         btnCancelar.setEnabled(false);
         btnEditar.setEnabled(false);
         btnExcluir.setEnabled(false);
@@ -586,6 +594,8 @@ public class FormVenda extends javax.swing.JFrame {
         if (tblItens.getRowCount() > 0) {
             btnEncerrarVenda.setEnabled(true);
         }
+        else
+            DataB = new Date();
 
         lblDescMesa.setText(mesa.getDescricao());
         edtCodigo.setEnabled(true);

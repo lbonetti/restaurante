@@ -28,21 +28,22 @@ public class VendaDAO extends GenericDAO {
     }
 
     public boolean inserir(Venda venda) {
-        String sql = "INSERT INTO vendaandamento(dataA, idproduto, idmesa, quantidade, preco) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO vendaandamento(dataA, dataB, idproduto, idmesa, quantidade, preco) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             this.prepareStmte(sql);
             this.stmte.addBatch("LOCK TABLE vendaandamento WRITE;");
 
             Calendar c = new GregorianCalendar();
             c.setTime(venda.getData());
+            c.set(Calendar.MILLISECOND, 0);            
+            this.stmte.setTimestamp(1, new Timestamp(c.getTimeInMillis()));
+            c.setTime(venda.getDatab());
             c.set(Calendar.MILLISECOND, 0);
-            Timestamp t = new Timestamp(c.getTimeInMillis());
-
-            this.stmte.setTimestamp(1, t);
-            this.stmte.setInt(2, venda.getIdProduto());
-            this.stmte.setInt(3, venda.getIdMesa());
-            this.stmte.setDouble(4, venda.getQuantidade());
-            this.stmte.setDouble(5, venda.getPreco());
+            this.stmte.setTimestamp(2, new Timestamp(c.getTimeInMillis()));
+            this.stmte.setInt(3, venda.getIdProduto());
+            this.stmte.setInt(4, venda.getIdMesa());
+            this.stmte.setDouble(5, venda.getQuantidade());
+            this.stmte.setDouble(6, venda.getPreco());
             this.stmte.addBatch();
             this.stmte.addBatch("UNLOCK TABLES;");
             this.stmte.executeBatch();
@@ -179,6 +180,7 @@ public class VendaDAO extends GenericDAO {
             while (rs.next()) {
                 Venda venda = new Venda();
                 venda.setData(rs.getTimestamp("dataA"));
+                venda.setDatab(rs.getTimestamp("dataB"));
                 venda.setIdMesa(idMesa);
                 venda.setIdProduto(rs.getInt("idproduto"));
                 venda.setPreco(rs.getDouble("preco"));

@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 public class Venda {
 
     private Date data;
+    private Date datab;
     private int idProduto;
     private int idMesa;
     private double quantidade;
@@ -61,6 +62,14 @@ public class Venda {
 
     public void setPreco(double preco) {
         this.preco = preco;
+    }
+    
+    public Date getDatab() {
+        return datab;
+    }
+
+    public void setDatab(Date datab) {
+        this.datab = datab;
     }
 
     public String getDateTime() {
