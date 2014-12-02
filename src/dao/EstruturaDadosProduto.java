@@ -26,7 +26,7 @@ public class EstruturaDadosProduto {
         nElems = p.length;                        // coloca no inicio a variavel nElems c/ zero elemento
     }
 
-   //--------------------------------------------------------------
+    //--------------------------------------------------------------
     // Rotina de Ordenação pelo método de Inserção (InsertSort)
     //-----------------------------------------------------------
     public Produto[] insertionSortCodigo() {
@@ -89,13 +89,6 @@ public class EstruturaDadosProduto {
         return p;
     }  // end insertionSort()
 //--------------------------------------------------------------   
-
-    private void swap(int one, int two) //Simples rotina onde é efetuada a troca!!!
-    {
-        Produto temp = p[one];
-        p[one] = p[two];
-        p[two] = temp;
-    }
 
     //--------------------------------------------------------------
 //Método de pesquisa binária ....
