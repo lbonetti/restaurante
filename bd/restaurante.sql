@@ -32,12 +32,13 @@ ENGINE = InnoDB;
 -- Table `restaurante`.`vendaAndamento`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `restaurante`.`vendaAndamento` (
-  `dataA` DATETIME NOT NULL,
-  `idproduto` INT NOT NULL,
-  `idmesa` INT NOT NULL,
+  `dataA` DATETIME,
+  `dataB` DATETIME,
+  `idproduto` INT,
+  `idmesa` INT,
   `quantidade` DECIMAL(10,2) NULL,
   `preco` DECIMAL(10,2) NULL,
-  PRIMARY KEY (`dataA`, `idmesa`, `idproduto`),
+  PRIMARY KEY (`dataA`, `dataB`, `idmesa`, `idproduto`),
   CONSTRAINT `fk_venda_produto`
     FOREIGN KEY (`idproduto`)
     REFERENCES `restaurante`.`produto` (`idproduto`)
@@ -53,13 +54,14 @@ ENGINE = InnoDB;
 -- Table `restaurante`.`vendaEncerrada`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `restaurante`.`vendaEncerrada` (
-  `ordemVenda` INT NOT NULL,
+  `ordemVenda` INT,
   `dataA` DATETIME,
+  `dataB` DATETIME,
   `idproduto` INT NOT NULL,
   `idmesa` INT NOT NULL,
   `quantidade` DECIMAL(10,2) NULL,
   `preco` DECIMAL(10,2) NULL,
-  PRIMARY KEY (`ordemVenda`, dataA, idmesa, idproduto))
+  PRIMARY KEY (`ordemVenda`, dataA, `dataB`, idmesa, idproduto))
 ENGINE = InnoDB;
 
 
@@ -79,7 +81,7 @@ FOR EACH ROW
 	 DECLARE idmesaV INT;
 	 DECLARE dataV DATETIME;
 	 SET idmesaV = OLD.idmesa;
-	 SET dataV = OLD.dataA;
+	 SET dataV = OLD.dataB;
 	 CALL ProInvendaEncerrada(dataV, idmesaV);
 	 update mesa set status = 'l' where idmesa = OLd.idmesa;
    END
@@ -95,46 +97,47 @@ BEGIN
   DECLARE dataX DATETIME;    
   DECLARE idmesaV INT;
   DECLARE dataV DATETIME;   
-  DECLARE busVendaEN CURSOR FOR SELECT ordemVenda, idmesa FROM `restaurante`.`vendaEncerrada` WHERE ordemVenda = (SELECT MAX(ordemVenda) FROM `restaurante`.`vendaEncerrada`);  
+  DECLARE busVendaEN CURSOR FOR SELECT ordemVenda, idmesa, dataB FROM `restaurante`.`vendaEncerrada` WHERE ordemVenda = (SELECT MAX(ordemVenda) FROM `restaurante`.`vendaEncerrada`);  
   DECLARE CONTINUE HANDLER FOR NOT FOUND SET fim = 0;
   OPEN busVendaEN;
   SET idmesaV = idmesaA;
   SET dataV = dataP;
-  FETCH busVendaEN INTO o, idmesaX;
+  FETCH busVendaEN INTO o, idmesaX, dataX;
   SET fim = o;
   IF fim > 0 THEN
-		  CALL ProInvendaEncerrada2(dataV, idmesaV, o, idmesaX);	   
+		  CALL ProInvendaEncerrada2(dataV, idmesaV, o, idmesaX, dataX);	   
   ELSE
   SET idmesaX = idmesaV;
-  SET o = 1;
-	CALL ProInvendaEncerrada2(dataV, idmesaV, o, idmesaX);
+  SET o = 0;
+	CALL ProInvendaEncerrada2(dataV, idmesaV, o, idmesaX, dataX);
   END IF;
   CLOSE busVendaEN;
  END
 // 
 
-CREATE PROCEDURE ProInvendaEncerrada2(IN dataD DATETIME, IN idmesaD INT, In ordemMesaE INT, IN idmesVe INT)
+CREATE PROCEDURE ProInvendaEncerrada2(IN dataD DATETIME, IN idmesaD INT, In ordemMesaE INT, IN idmesVe INT, IN dataVe DATETIME)
 BEGIN
   DECLARE fim2 INT DEFAULT 0;
   DECLARE ordem INT DEFAULT 0;
   DECLARE da DATETIME;
+  DECLARE db DATETIME;
   DECLARE idm INT;
   DECLARE idp INT;
   DECLARE qua DECIMAL(10,2);
   DECLARE pre DECIMAL(10,2); 
-  DECLARE busVenda CURSOR FOR SELECT * FROM `restaurante`.`vendaAndamento` WHERE idmesa = idmesaD and dataA = dataD;
+  DECLARE busVenda CURSOR FOR SELECT * FROM `restaurante`.`vendaAndamento` WHERE idmesa = idmesaD;
   DECLARE CONTINUE HANDLER FOR NOT FOUND SET fim2 = 0;
   SET fim2 = ordemMesaE + 1;
   SET ordem = ordemMesaE;
   OPEN busVenda;
 --  read_loop: LOOP
-	FETCH busVenda INTO da, idm, idp, qua, pre;	
-       IF idmesVe = idmesaD THEN
-		  INSERT INTO `restaurante`.`vendaEncerrada` VALUES (ordem, da, idm, idp, qua, pre);
+	FETCH busVenda INTO da, db, idm, idp, qua, pre;	
+       IF idmesVe = idmesaD AND dataVe = dataD THEN
+		  INSERT INTO `restaurante`.`vendaEncerrada` VALUES (ordem, da, db, idm, idp, qua, pre);
 	   elseif fim2 > 1 THEN
-		  INSERT INTO `restaurante`.`vendaEncerrada` VALUES (fim2, da, idm, idp, qua, pre);
+		  INSERT INTO `restaurante`.`vendaEncerrada` VALUES (fim2, da, db, idm, idp, qua, pre);
 	   elseif ordemMesaE = 0 then
-		  INSERT INTO `restaurante`.`vendaEncerrada` VALUES (1, da, idm, idp, qua, pre);
+		  INSERT INTO `restaurante`.`vendaEncerrada` VALUES (1, da, db, idm, idp, qua, pre);
        END IF;	   
 --  END LOOP;
   CLOSE busVenda;
@@ -149,8 +152,7 @@ DELIMITER ;
 -- INSERT INTO produto VALUES (1, 'Protsjakasd', 123);
 -- INSERT INTO produto VALUES (2, 'Prot', 123);
 -- INSERT INTO produto VALUES (3, 'asasdas', 123124);
--- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:00', 1, 1, 2, 123);
--- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:00', 3, 1, 2, 123);
--- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:00', 2, 1, 4, 123);
--- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:00', 1, 2, 2, 123);
--- INSERT INTO vendaEncerrada VALUES (0, '0000-00-00 00:00:00', 0, 0, 0, 0);
+-- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:00', '2013-08-30 19:05:00', 1, 1, 2, 123);
+-- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:06', '2013-08-30 19:05:00', 3, 1, 2, 123);
+-- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:04', '2013-08-30 19:05:00', 2, 1, 4, 123);
+-- INSERT INTO vendaAndamento VALUES ('2013-08-30 19:05:05', '2013-08-30 19:05:05', 1, 2, 2, 123);
