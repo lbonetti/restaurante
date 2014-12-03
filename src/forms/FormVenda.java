@@ -57,8 +57,7 @@ public class FormVenda extends javax.swing.JFrame {
 
         for (Venda v : vendaMesa) {
             if (v != null) {
-                if (DataB == null)
-                {
+                if (DataB == null) {
                     DataB = v.getDatab();
                 }
                 p = produtoDAO.getProdutoById(v.getIdProduto());
@@ -452,7 +451,7 @@ public class FormVenda extends javax.swing.JFrame {
         if (operacao.equals("I")) {
             Calendar c = new GregorianCalendar();
             //mes no Calendar inicia no 0
-            c.setTime(new Date());            
+            c.setTime(new Date());
             v.setData(c.getTime());
             c.setTime(DataB);
             v.setDatab(c.getTime());
@@ -580,6 +579,7 @@ public class FormVenda extends javax.swing.JFrame {
             edtIdMesa.requestFocus();
             return;
         }
+
         int idmesa = Integer.parseInt(edtIdMesa.getText());
 
         mesa = mesaDAO.getMesaById(idmesa);
@@ -589,13 +589,19 @@ public class FormVenda extends javax.swing.JFrame {
             return;
         }
 
+        if ((mesa.getStatus()).equals("d")) {
+            JOptionPane.showMessageDialog(null, "Mesa desativada");
+            edtIdMesa.selectAll();
+            return;
+        }
+
         loadVendaMesa(idmesa);
 
         if (tblItens.getRowCount() > 0) {
             btnEncerrarVenda.setEnabled(true);
-        }
-        else
+        } else {
             DataB = new Date();
+        }
 
         lblDescMesa.setText(mesa.getDescricao());
         edtCodigo.setEnabled(true);
