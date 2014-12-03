@@ -22,4 +22,8 @@ public class VendaEncerrada extends Venda {
         this.ordemVenda = ordemVenda;
     }
     
+    public double getTotal(){
+        return getPreco() * getQuantidade();
+    }
+    
 }

@@ -194,20 +194,43 @@ public class VendaDAO extends GenericDAO {
         return r;
     }
 
-    public ArrayList<VendaC> getVendasCab(String ordem, int OrdemInicial, int OrdemFinal) {
+    public ArrayList<VendaC> getVendasCab(int OrdemInicial, int OrdemFinal) {
 
         ArrayList<VendaC> v = new ArrayList<>();
 
         String sql = "SELECT v.ordemVenda, v.idmesa, sum(round(v.preco * v.quantidade,2)) as Total FROM vendaencerrada v\n" +
                         "where v.ordemVenda between ? and ?\n" +
-                        "group by 1,2 order by "+ordem;
+                        "group by 1,2 ";
         try {
             this.prepareStmte(sql);            
             this.stmte.setInt(1, OrdemInicial);
             this.stmte.setInt(2, OrdemFinal);
             
             ResultSet rs = this.stmte.executeQuery();
-            int index = 0;
+            while (rs.next()) {
+                VendaC cab = new VendaC();
+                cab.setOrdemVenda(rs.getInt("ordemVenda"));
+                cab.setIdmesa(rs.getInt("idmesa"));
+                cab.setTotal(rs.getDouble("total"));
+                v.add(cab);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro " + e.getMessage());
+        }
+
+        return v;
+    }
+    
+    public ArrayList<VendaC> getVendasCab() {
+
+        ArrayList<VendaC> v = new ArrayList<>();
+
+        String sql = "SELECT v.ordemVenda, v.idmesa, sum(round(v.preco * v.quantidade,2)) as Total FROM vendaencerrada v\n" +
+                        " group by 1,2 ";
+        try {
+            this.prepareStmte(sql);
+            
+            ResultSet rs = this.stmte.executeQuery();
             while (rs.next()) {
                 VendaC cab = new VendaC();
                 cab.setOrdemVenda(rs.getInt("ordemVenda"));

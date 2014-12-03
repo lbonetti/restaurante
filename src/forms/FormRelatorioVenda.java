@@ -7,15 +7,15 @@
 package forms;
 
 import beans.Produto;
-import beans.Venda;
 import beans.VendaC;
 import beans.VendaEncerrada;
+import dao.EDRelatorioVenda;
 import dao.ProdutoDAO;
 import dao.VendaDAO;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -28,10 +28,12 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
      * Creates new form FormRelVenda
      */
     
+    EDRelatorioVenda ed;
    
     VendaDAO vendaDAO = new VendaDAO();
     private final ProdutoDAO produtoDAO = new ProdutoDAO();
     private int Linha;
+    private String ordemItens = "D";
 
     public int getLinha() {
         return Linha;
@@ -44,6 +46,7 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
     
     public FormRelatorioVenda() {
         initComponents();
+        ed = new EDRelatorioVenda();
     }
 
     /**
@@ -55,16 +58,11 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblItens = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblVendas = new javax.swing.JTable();
         btnCarregar = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        rbtOrdemVenda = new javax.swing.JRadioButton();
-        rbtOrdemMesa = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         edtOrdemVendaInicial = new javax.swing.JTextField();
@@ -77,6 +75,12 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Relatório de vendas");
@@ -156,41 +160,6 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel1.setText("Ordem:");
-
-        buttonGroup1.add(rbtOrdemVenda);
-        rbtOrdemVenda.setSelected(true);
-        rbtOrdemVenda.setText("Ordem Venda");
-
-        buttonGroup1.add(rbtOrdemMesa);
-        rbtOrdemMesa.setText("Mesa");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rbtOrdemVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(rbtOrdemMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel1)
-                    .addComponent(rbtOrdemVenda)
-                    .addComponent(rbtOrdemMesa))
-                .addGap(26, 26, 26))
-        );
-
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel2.setText("Ordem de Venda Inicial:");
@@ -224,7 +193,7 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(edtOrdemVendaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(edtOrdemVendaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,7 +223,7 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
 
         jMenu5.setText("Ordenar");
 
-        jMenuItem3.setText("Por número");
+        jMenuItem3.setText("Ordem Venda");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -262,7 +231,7 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem3);
 
-        jMenuItem4.setText("Por descrição");
+        jMenuItem4.setText("Mesa");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
@@ -270,13 +239,54 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem4);
 
-        jMenuItem1.setText("Por status");
+        jMenuItem1.setText("Total");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
         jMenu5.add(jMenuItem1);
+        jMenu5.add(jSeparator1);
+
+        jMenuItem5.setText("Data");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem5);
+
+        jMenuItem6.setText("Produto");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem6);
+
+        jMenuItem7.setText("Quantidade");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem7);
+
+        jMenuItem8.setText("Preço");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem8);
+
+        jMenuItem9.setText("Total");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem9);
 
         jMenuBar3.add(jMenu5);
 
@@ -294,8 +304,7 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnCarregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -305,10 +314,8 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                         .addComponent(btnCarregar))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(8, 8, 8)
@@ -325,22 +332,21 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
         DefaultTableModel tabelaItens = (DefaultTableModel) tblItens.getModel();
         tabelaItens.setRowCount(0);
         int ordemVenda = Integer.parseInt(tabelaVenda.getValueAt(getLinha(), 0).toString());
-        ArrayList<VendaEncerrada> venda = vendaDAO.getVendasItens(ordemVenda);
-
+        ArrayList<VendaEncerrada> venda = ed.getVendaItens(ordemVenda, ordemItens);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         for (VendaEncerrada v : venda) {
             if (v != null) {     
                 
                 DecimalFormat df = new DecimalFormat("#,###.00");
                 String qtd = df.format(v.getQuantidade());
                 String pre = df.format(v.getPreco());
-                String tot;
-                tot = df.format(v.getQuantidade() * v.getPreco());
+                String tot = df.format(v.getTotal());
                 
-                Produto p = new Produto();
+                Produto p;// = new Produto();
                 p = produtoDAO.getProdutoById(v.getIdProduto());
                 
                 Object[] objects = new Object[]{
-                    v.getData(),
+                    sdf.format(v.getData()),
                     p.getDescricao(),
                     qtd,
                     pre,
@@ -351,37 +357,35 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
         }
     }
     
-    private void btnCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarActionPerformed
-        String ordem;
-        if (rbtOrdemVenda.isSelected())
-            ordem = "ordemVenda";
-        else
-            ordem = "idmesa";
-        
-        if (edtOrdemVendaInicial.getText().equals(""))
-            edtOrdemVendaInicial.setText("0");
-        if (edtOrdemVendaFinal.getText().equals(""))
-            edtOrdemVendaFinal.setText("0");
-        
-        
-        int OrdemInicial = Integer.parseInt(edtOrdemVendaInicial.getText());
-        int OrdemFinal = Integer.parseInt(edtOrdemVendaFinal.getText());
-        if (OrdemFinal == 0)
-            OrdemFinal = Integer.MAX_VALUE;
-                   
-        ArrayList<VendaC> VendaCab = vendaDAO.getVendasCab(ordem,OrdemInicial,OrdemFinal);        
+    private void preencheCab(ArrayList<VendaC> Lista){
         DefaultTableModel tabelaVenda = (DefaultTableModel) tblVendas.getModel();
         tabelaVenda.setRowCount(0);
         DecimalFormat df = new DecimalFormat("#,###.00");
-        for (VendaC v : VendaCab) {
-            if (v != null) {      
+        for (VendaC v : Lista) {
+            if (v != null) {
                 Object[] objects = new Object[]{
                     v.getOrdemVenda(),
                     v.getIdmesa(),
                     df.format(v.getTotal())};
                 tabelaVenda.addRow(objects);
             }
-        }        
+        }  
+    }
+    
+    
+    private void btnCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarActionPerformed
+        if (edtOrdemVendaInicial.getText().equals(""))
+            edtOrdemVendaInicial.setText("0");
+        if (edtOrdemVendaFinal.getText().equals(""))
+            edtOrdemVendaFinal.setText("0");
+         
+        int OrdemInicial = Integer.parseInt(edtOrdemVendaInicial.getText());
+        int OrdemFinal = Integer.parseInt(edtOrdemVendaFinal.getText());
+        if (OrdemFinal == 0)
+            OrdemFinal = Integer.MAX_VALUE;
+        
+        ArrayList<VendaC> Lista = ed.getVendaCab("O", OrdemInicial,OrdemFinal);
+        preencheCab(Lista);
     }//GEN-LAST:event_btnCarregarActionPerformed
 
     private void tblVendasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblVendasKeyReleased
@@ -412,23 +416,45 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-        //mesas = e.insertionSortNumero();
-        //preencheTabela(mesas);
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        ordemItens = "V";
+        updateItensVenda();
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
-        //mesas = e.insertionSortDescricao();
-        //preencheTabela(mesas);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        ordemItens = "Q";
+        updateItensVenda();
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        ordemItens = "P";
+        updateItensVenda();
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        ordemItens = "D";
+        updateItensVenda();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        //mesas = e.insertionSortStatus();
-        //preencheTabela(mesas);
+        ArrayList<VendaC> Lista = ed.getVendaCab("T");
+        preencheCab(Lista);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        ArrayList<VendaC> Lista = ed.getVendaCab("M");
+        preencheCab(Lista);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        ArrayList<VendaC> Lista = ed.getVendaCab("O");
+        preencheCab(Lista);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        ordemItens = "T";
+        updateItensVenda();
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -467,10 +493,8 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCarregar;
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField edtOrdemVendaFinal;
     private javax.swing.JTextField edtOrdemVendaInicial;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu4;
@@ -480,12 +504,15 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JRadioButton rbtOrdemMesa;
-    private javax.swing.JRadioButton rbtOrdemVenda;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTable tblItens;
     private javax.swing.JTable tblVendas;
     // End of variables declaration//GEN-END:variables
