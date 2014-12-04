@@ -17,13 +17,13 @@ public class EstruturaDadosProduto {
 
     ProdutoDAO produtoDAO = new ProdutoDAO();
     private Produto[] p;
-    private int nElems;               // controla a qty de itens no vetor
+    private int nElems;               // controla a qtd de itens no vetor
 //--------------------------------------------------------------
 
     public EstruturaDadosProduto() // Método construtor
     {
-        p = produtoDAO.getProdutos();                    // Instancia um novo array
-        nElems = p.length;                        // coloca no inicio a variavel nElems c/ zero elemento
+        p = produtoDAO.getProdutos();                    // Instancia um array de produtos
+        nElems = p.length;                        // preenche o nElemens com o tamanho do vetor
     }
 
     //--------------------------------------------------------------

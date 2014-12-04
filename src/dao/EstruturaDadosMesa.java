@@ -17,13 +17,13 @@ public class EstruturaDadosMesa {
 
     MesaDAO mesaDAO = new MesaDAO();
     private Mesa[] m;
-    private int nElems;               // controla a qty de itens no vetor
+    private int nElems;               // controla a qtd de itens no vetor
 //--------------------------------------------------------------
 
     public EstruturaDadosMesa() // Método construtor
     {
-        m = mesaDAO.getMesas();                    // Instancia um novo array
-        nElems = m.length;                        // coloca no inicio a variavel nElems c/ zero elemento
+        m = mesaDAO.getMesas();                    // Instancia um array de mesas
+        nElems = m.length;                        // preenche o nElemens com o tamanho do vetor
     }
 
    //--------------------------------------------------------------
