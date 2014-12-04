@@ -11,7 +11,6 @@ import beans.VendaC;
 import beans.VendaEncerrada;
 import dao.EDRelatorioVenda;
 import dao.ProdutoDAO;
-import dao.VendaDAO;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -30,7 +29,6 @@ public class FormRelatorioVenda extends javax.swing.JFrame {
     
     EDRelatorioVenda ed;
    
-    VendaDAO vendaDAO = new VendaDAO();
     private final ProdutoDAO produtoDAO = new ProdutoDAO();
     private int Linha;
     private String ordemItens = "D";
